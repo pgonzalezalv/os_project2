@@ -13,7 +13,7 @@
 struct fractal {
     char name[];
     int value[][];
-    int w;  du pixel
+    int w;
     int h;
     double a;
     double b;
