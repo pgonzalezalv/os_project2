@@ -12,7 +12,7 @@
  */
 struct fractal {
     char name[65];
-    int **value;
+    int *value;
     int w;
     int h;
     double a;
