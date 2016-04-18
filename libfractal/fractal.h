@@ -11,8 +11,8 @@
  * @b: partie imaginaire des coordonnees de la fractrale
  */
 struct fractal {
-    char name[];
-    int value[][];
+    char name[65];
+    int **value;
     int w;
     int h;
     double a;
