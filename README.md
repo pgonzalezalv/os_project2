@@ -42,4 +42,4 @@ they contain :
 * `./main.c`
 * `./Makefile`
 * `./README.md`
-* `./tests/` contains unit tests made with CUnit
+* `./test/` contains unit tests made with CUnit
