@@ -5,10 +5,8 @@ struct fractal *fractal_new(const char *name, int width, int height, double a, d
 {
     struct fractal *f_new = malloc(sizeof(struct fractal));
 
-    int i = 0;
-    for(i = 0; name[i] != '\0'; i++)
-        f_new->name[i] = name[i];
-    f_new->name[i] = '\0';
+    int n = 65;
+    strncpy(f_new->name; name; (size_t) n);
 
     f_new->value = (int *)malloc(height * width * sizeof(int));
     f_new->w = width;
