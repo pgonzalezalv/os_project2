@@ -1,22 +1,39 @@
-BIN=fractal #Binary name
-CC=gcc #Compiler cmd
-CFLAGS=-Wall -Werror #Optimisation options
-LDFLAGS=-lpthreads -lSDL #Linker
-SRC=$(wildcard *.c)
-OBJ=$(SRC:.c=.o)
+CC=gcc
+CFLAGS=-Wall -I/usr/include/SDL
 
-.PHONY: clean all
+AR=ar
+ARFLAGS=-r
 
-all: $(BIN)
+SRC_FILES=$(wildcard *.c) # search for all .c
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+OBJ_FILES=$(SRC_FILES:.c=.o) # <name.c> becomes <name>.o
 
-$(BIN): $(OBJ)
-	$(CC) -o $@ $(OBJ) $(LDFLAGS)
+LIB_FILES=libfractal.a
 
+## all      : Generate fractal library
+all: $(SRC_FILES) $(LIB_FILES)
+
+# Build archive
+$(LIB_FILES): $(OBJ_FILES)
+	@echo "building $@"
+	$(AR) $(ARFLAGS) $@ $^
+
+# Compile fractal library
+*.o:
+	@echo "building $@"
+	$(CC) -o $@ -o $< $(CFLAGS) $(LDFLAGS)
+
+## clean    : Remove auto-generated files
 clean:
-	rm -f *.o
+	@echo "cleaning"
+	rm -f $(OBJ_FILES)
 
+## mrproper : Remove all built files
 mrproper: clean
-	rm -f $(OBJ)
+	@echo "hardcore cleaning"
+	rm -f $(LIB_FILES)
+
+## help     : Show different make options
+.PHONY: help
+help: Makefile
+	@sed -n 's/^##//p' $<
