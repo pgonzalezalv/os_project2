@@ -1,4 +1,17 @@
-include config.mk
+# Binary name
+BIN=main
+
+# Compiler cmd, optimisations options and linkers
+CC=gcc #Compiler cmd
+CFLAGS=-Wall -Werror
+LDFLAGS=-lpthread -lSDL
+
+# Test using CUnit installed locally
+TEST_EXE=$(CC) -I$(HOME)/local/include
+TEST_SRC=test/*.c
+
+SRC=$(wildcard *.c)
+OBJ=$(SRC:.c=.o)
 
 ## main     : Generate fractal - TODO
 main: main.c
