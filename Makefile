@@ -1,22 +1,24 @@
-BIN=main #Binary name
-CC=gcc #Compiler cmd
-CFLAGS=-Wall -Werror #Optimisation options
-LDFLAGS=-lpthreads -lSDL #Linker
-SRC=$(wildcard *.c)
-OBJ=$(SRC:.c=.o)
+include config.mk
 
-.PHONY: clean all
+## main     : Generate fractal - TODO
+main: main.c
+	@echo "building $@"
+	gcc -Wall -Werror -o $@ $<
 
-all: $(BIN)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-$(BIN): $(OBJ)
-	$(CC) -o $@ $(OBJ) $(LDFLAGS)
-
+## lib      : Compile libfractal - code DONE, TODO : linker -lSDL
+## test     : Compile and execute tests - TODO : multiple tests
+## clean    : Remove auto-generated files
 clean:
+	@echo "cleaning"
 	rm -f *.o
 
+## mrproper : Remove all built files
+.PHONY: clean
 mrproper: clean
-	rm -f $(OBJ)
+	@echo "mrproper cleaning"
+	rm -f main
+
+## help     : Show different make options
+.PHONY: help
+help: Makefile
+	@sed -n 's/^##//p' $<
