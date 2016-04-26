@@ -24,7 +24,7 @@ struct buffer_node{
  *
  * commentaires : Il faut un mutex pour chaque ligne lu
  */
-int reader(const *char fichier);
+int reader(const char *fichier);
 
 /*
  * calculator description
@@ -40,7 +40,7 @@ int calculator(struct fractal *fract);
  * @return : 0 si le noeud est ajoute a l'avant de la liste,
  *           -1 si une erreur apparait.
  */
-int push(buffer_node **listStart, struct fractal *new_fract);
+int push(struct buffer_node **listStart, struct fractal *new_fract);
 
 /*
  * pop enleve un element a la fin du buffer.
@@ -48,6 +48,6 @@ int push(buffer_node **listStart, struct fractal *new_fract);
  *        chainee.
  * @return : la structure fractal enlevee du buffer.
  */
-struct fract *pop(buffer_node **listEnd);
+struct fract *pop(struct buffer_node **listEnd);
 
 #endif

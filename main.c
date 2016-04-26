@@ -1,4 +1,5 @@
 #include <pthread.h>
+#include <semaphore.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,7 +21,7 @@ int main()
 	return 0;
 }
 
-int reader(const *char fichier) {
+int reader(const char *fichier) {
 	FILE *reading = NULL;
 
 	reading = fopen(fichier, "r");
@@ -42,8 +43,11 @@ int reader(const *char fichier) {
 				new_fract = fractal_new(name, width, height, a, b);
 
 				int err = push(&buffer, new_fract);
-				if (err != 0)
+				if (err != 0) {
 					error(err, "push \n");
+
+					exit(1);
+				}
 			}
 	  	ans_line = fscanf(fichier, "%s %d %d %d %f %f", &name, &width, &height, &a, &b);
 		}
@@ -54,6 +58,7 @@ int reader(const *char fichier) {
 		exit(1);
 	}
 
+	return 0;
 }
 
 int calculator(struct fractal *fract) {
@@ -63,22 +68,22 @@ int calculator(struct fractal *fract) {
 	return 0;
 }
 
-int push(buffer_node **listStart, struct fractal *new_fract){
+int push(struct buffer_node **listStart, struct fractal *new_fract){
 	struct buffer_node *n;
-  n = (buffer_node *)malloc(sizeof(buffer_node));
+  n = (struct buffer_node *)malloc(sizeof(struct buffer_node));
 
   if (n==NULL)
     return -1;
 
-  n->current = *new_fract;
-  n->next = *listStart;
+  n->current = *new_fract; //pb
+  n->next = *listStart; //pb
 	n->previous = NULL;
-  *list = n;
+  *list = n; //pb
 
 	return 0;
 }
 
-struct fract *pop(buffer_node **listEnd) {
+struct fract *pop(struct buffer_node **listEnd) {
 	if (list == NULL)
 		return 0;
 
