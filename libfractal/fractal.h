@@ -3,8 +3,8 @@
 
 /*
  * struct fractal represente une fractale
- * @name[]: nom de la fractale
- * @value[][]: valeur des pixels
+ * @name: nom de la fractale
+ * @value: valeur des pixels
  * @w: largeur du pixel en pixels
  * @h: hauteur du pixel en pixels
  * @a: partie reelle des coordonnees de la fractrale

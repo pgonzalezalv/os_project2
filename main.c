@@ -20,15 +20,8 @@ int main()
 	return 0;
 }
 
-/**
-* Lit un fichier sur l'entrée standard
-* @return : renvoit 0 si on arrive à la fin du fichier (les fractales ont
-* toutes été créées).
-* renvoit 0 si on a atteint la fin du fichier sans erreur, 1 sinon
-* Il faut un mutex pour chaque ligne lu
-*/
 int reader(const *char fichier) {
-	FILE* reading = NULL;
+	FILE *reading = NULL;
 
 	reading = fopen(fichier, "r");
 
@@ -63,37 +56,28 @@ int reader(const *char fichier) {
 
 }
 
-/*
- */
-int calculator(struct fractal *fract)
+int calculator(struct fractal *fract) {
 
-/*
- * Ajoute un noeud à l'avant du buffer.
- * @arg : prend comme argument un pointeur vers le début
- * d'une liste doublement chainee et une structure fractal.
- * @return : 0 le noeud est ajouté à l'avant de la liste,
- * -1 si une erreur apparait.
- */
+	/* TO DO */
+
+	return 0;
+}
+
 int push(buffer_node **listStart, struct fractal *new_fract){
 	struct buffer_node *n;
   n = (buffer_node *)malloc(sizeof(buffer_node));
+
   if (n==NULL)
-  {
     return -1;
-  }
+
   n->current = *new_fract;
   n->next = *listStart;
 	n->previous = NULL;
   *list = n;
-  return 0;
+
+	return 0;
 }
 
-/*
- * Enleve un élément à la fin du buffer.
- * @arg : prend comme argument un pointeur vers la fin d'une
- * liste doublement chainee.
- * @return : la structure fractal enlevee du buffer.
- */
 struct fract *pop(buffer_node **listEnd) {
 	if (list == NULL)
 		return 0;
