@@ -1,3 +1,4 @@
+#include <error.h>
 #include <pthread.h>
 #include <semaphore.h>
 #include <stdbool.h>
@@ -36,10 +37,11 @@ int reader(const char *fichier) {
 		struct fractal *new_fract = NULL;
 		int ansLine = 0;
 
-		ansLine = fscanf(file, "%s %d %d %lf %lf", &name, &width, &height, &a, &b);
+		ansLine = fscanf(file, "%s %d %d %lf %lf", name, &width, &height, &a, &b);
 
 		while (ansLine != EOF) {
-			sem_wait(&sem); //sem_past doit etre appele a chaque creation d'un thread calculator
+			//BUG SEM NON DECLARE
+			// sem_wait(&sem); //sem_past doit etre appele a chaque creation d'un thread calculator
 			if (ansLine == 5) {
 				new_fract = fractal_new(name, width, height, a, b);
 
@@ -49,7 +51,7 @@ int reader(const char *fichier) {
 					exit(1);
 				}
 			}
-	  	ansLine = fscanf(file, "%s %d %d %d %lf %lf", &name, &width, &height, &a, &b);
+	  	ansLine = fscanf(file, "%s %d %d %lf %lf", name, &width, &height, &a, &b);
 		}
 		fclose(file);
 	} else {
