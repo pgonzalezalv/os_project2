@@ -22,39 +22,38 @@ int main()
 }
 
 int reader(const char *fichier) {
-	FILE *reading = NULL;
+	FILE *file = NULL;
 
-	reading = fopen(fichier, "r");
+	file = fopen(fichier, "r");
 
 	// il faut un sem_post
-	if (reading != NULL) {
-		const char name[65];
-		int width;
-		int height;
-		double a;
-		double b;
+	if (file != NULL) {
+		char name[65] = {0};
+		int width = 0;
+		int height = 0;
+		double a = 0.0;
+		double b = 0.0;
 		struct fractal *new_fract = NULL;
+		int ansLine = 0;
 
-		int ans_line = fscanf(fichier, "%s %d %d %f %f", &name, &width, &height, &a, &b);
+		ansLine = fscanf(file, "%s %d %d %lf %lf", &name, &width, &height, &a, &b);
 
-		while (ans_line != EOF) {
+		while (ansLine != EOF) {
 			sem_wait(&sem); //sem_past doit etre appele a chaque creation d'un thread calculator
-			if (ans_line == 5) {
+			if (ansLine == 5) {
 				new_fract = fractal_new(name, width, height, a, b);
 
 				int err = push(&buffer, new_fract);
 				if (err != 0) {
 					error(err, "push \n");
-
 					exit(1);
 				}
 			}
-	  	ans_line = fscanf(fichier, "%s %d %d %d %f %f", &name, &width, &height, &a, &b);
+	  	ansLine = fscanf(file, "%s %d %d %d %lf %lf", &name, &width, &height, &a, &b);
 		}
-
-		fclose(fichier);
+		fclose(file);
 	} else {
-		printf("Error: file pointer is null");
+		printf("Error: file pointer is null\n"); // del when code is finished
 		exit(1);
 	}
 
