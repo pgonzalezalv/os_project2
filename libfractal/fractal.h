@@ -10,14 +10,14 @@
  * @a: partie reelle des coordonnees de la fractrale
  * @b: partie imaginaire des coordonnees de la fractrale
  */
-struct fractal {
-    char name[65];
-    int *value;
-    int w;
-    int h;
-    double a;
-    double b;
-};
+ struct fractal {
+   char name[65];
+   int *value;
+   int w;
+   int h;
+   double a;
+   double b;
+ };
 
 /*
  * fractal_new: alloue une nouvelle structure fractal
