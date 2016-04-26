@@ -40,16 +40,16 @@ int reader(const char *fichier) {
 		ansLine = fscanf(file, "%s %d %d %lf %lf", name, &width, &height, &a, &b);
 
 		while (ansLine != EOF) {
-			//BUG SEM NON DECLARE
+			//BUG : sem is not declared
 			// sem_wait(&sem); //sem_past doit etre appele a chaque creation d'un thread calculator
 			if (ansLine == 5) {
 				new_fract = fractal_new(name, width, height, a, b);
 
-				int err = push(&buffer, new_fract);
-				if (err != 0) {
-					error(err, "push \n");
-					exit(1);
-				}
+				// int err = push(&buffer, new_fract); // BUG : buffer not declared
+				// if (err != 0) {
+					// error(err, "push \n"); // BUG : too few arguments to `error`
+					// exit(1);
+				// }
 			}
 	  	ansLine = fscanf(file, "%s %d %d %lf %lf", name, &width, &height, &a, &b);
 		}
@@ -69,17 +69,17 @@ int calculator(struct fractal *fract) {
 	return 0;
 }
 
-int push(struct buffer_node **listStart, struct fractal *new_fract){
-	struct buffer_node *n;
-  n = (struct buffer_node *)malloc(sizeof(struct buffer_node));
+int push(struct buffer_node **list, struct fractal *new_fract){
+	struct buffer_node *new;
+  new = malloc(sizeof(*new));
 
-  if (n==NULL)
+  if (new == NULL)
     return -1;
 
-  n->current = *new_fract; //pb
-  n->next = *listStart; //pb
-	n->previous = NULL;
-  *list = n; //pb
+  new->current = new_fract;
+  new->next = *list;
+	new->previous = NULL;
+  *list = new;
 
 	return 0;
 }
