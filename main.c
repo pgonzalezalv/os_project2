@@ -6,10 +6,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "libfractal/fractal.h"
+#include "./libfractal/fractal.h"
 #include "main.h"
 
-int main()
+int main(int argc, char *argv[])
 {
 	// il faut un sémaphore pour multi-threader la fonction reader
 	sem_t sem;
@@ -76,7 +76,7 @@ int push(struct buffer_node **list, struct fractal *new_fract){
   if (new == NULL)
     return -1;
 
-  new->current = new_fract;
+  new->fract = new_fract;
   new->next = *list;
 	new->previous = NULL;
   *list = new;
@@ -84,14 +84,16 @@ int push(struct buffer_node **list, struct fractal *new_fract){
 	return 0;
 }
 
-struct fract *pop(struct buffer_node **listEnd) {
-	if (list == NULL)
-		return 0;
+struct fractal* pop(struct buffer_node **list) {
+	// if (list == NULL)
+		// return 0;
 
-	struct buffer_node *n = *listEnd;
-	*listEnd = (*listEnd)->previous;
-	*listEnd->next = NULL;
-	struct fractal* toPop = n->current;
-	free(n);
-	return(toPop);
+	struct fractal *fract = NULL;
+	struct buffer_node *toRemove = *list;
+
+	fract = (*list)->fract;
+	*list = (*list)->next;
+
+	free(toRemove);
+	return fract;
 }

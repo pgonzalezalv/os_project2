@@ -8,12 +8,12 @@
  * taille maximale MAX_BUFFER_SIZE
  * @next: element suivant, NULL si fin de liste
  * @previous: element precedent, NULL si debut de liste
- * @current: element courant.
+ * @fract: element courant.
  */
 struct buffer_node{
   struct buffer_node *next;
   struct buffer_node *previous;
-  struct fractal *current;
+  struct fractal *fract;
 };
 
 /*
@@ -40,7 +40,7 @@ int calculator(struct fractal *fract);
  * @return : 0 si le noeud est ajoute a l'avant de la liste,
  *           -1 si une erreur apparait.
  */
-int push(struct buffer_node **listStart, struct fractal *new_fract);
+int push(struct buffer_node **list, struct fractal *new_fract){
 
 /*
  * pop enleve un element a la fin du buffer.
@@ -48,6 +48,6 @@ int push(struct buffer_node **listStart, struct fractal *new_fract);
  *        chainee.
  * @return : la structure fractal enlevee du buffer.
  */
-struct fract *pop(struct buffer_node **listEnd);
+struct fractal* pop(struct buffer_node **list);
 
 #endif
