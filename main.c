@@ -6,18 +6,18 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "./libfractal/fractal.h"
+#include "libfractal/fractal.h"
 #include "main.h"
 
 int main(int argc, char *argv[])
 {
 	// il faut un sémaphore pour multi-threader la fonction reader
-	sem_t sem;
-	sem_init(&sem, 0, MAX_BUFFER_SIZE);
+	// sem_t sem;
+	// sem_init(&sem, 0, MAX_BUFFER_SIZE);
 
 	/* TO DO */
 
-	sem_destroy(&sem);
+	// sem_destroy(&sem);
 
 	return 0;
 }
@@ -28,22 +28,22 @@ int reader(const char *fichier) {
 	file = fopen(fichier, "r");
 
 	// il faut un sem_post
-	if (file != NULL) {
-		char name[65] = {0};
-		int width = 0;
-		int height = 0;
+	if (file != NULL) { // file succesfully opened
+		struct fractal *new_fract = NULL;
+		char n[65] = {0};
+		int w = 0;
+		int h = 0;
 		double a = 0.0;
 		double b = 0.0;
-		struct fractal *new_fract = NULL;
-		int ansLine = 0;
+		char line[1000];
+		int ans_line = 0;
 
-		ansLine = fscanf(file, "%s %d %d %lf %lf", name, &width, &height, &a, &b);
-
-		while (ansLine != EOF) {
+		while (fgets(line, sizeof(line),file)) {
 			//BUG : sem is not declared
 			// sem_wait(&sem); //sem_past doit etre appele a chaque creation d'un thread calculator
-			if (ansLine == 5) {
-				new_fract = fractal_new(name, width, height, a, b);
+			if (sscanf(line, "%s %d %d %lf %lf", n, &w, &h, &a, &b) == 5) {
+				new_fract = fractal_new(n, w, h, a, b);
+				// printf("%s %d %d %lf %lf\n", n, w, h, a, b); // ca marche
 
 				// int err = push(&buffer, new_fract); // BUG : buffer not declared
 				// if (err != 0) {
@@ -51,7 +51,6 @@ int reader(const char *fichier) {
 					// exit(1);
 				// }
 			}
-	  	ansLine = fscanf(file, "%s %d %d %lf %lf", name, &width, &height, &a, &b);
 		}
 		fclose(file);
 	} else {
