@@ -40,7 +40,7 @@ int calculator(struct fractal *fract);
  * @return : 0 si le noeud est ajoute a l'avant de la liste,
  *           -1 si une erreur apparait.
  */
-int push(struct buffer_node **list, struct fractal *new_fract){
+int push(struct buffer_node **list, struct fractal *new_fract);
 
 /*
  * pop enleve un element a la fin du buffer.
