@@ -9,8 +9,16 @@
 #include "libfractal/fractal.h"
 #include "main.h"
 
+struct buffer_node *buffer;
+
 int main(int argc, char *argv[])
 {
+
+	int test = 0;
+
+	test = reader(argv[1]);
+
+
 	// il faut un sémaphore pour multi-threader la fonction reader
 	// sem_t sem;
 	// sem_init(&sem, 0, MAX_BUFFER_SIZE);
@@ -18,12 +26,13 @@ int main(int argc, char *argv[])
 	/* TO DO */
 
 	// sem_destroy(&sem);
-
+	
 	return 0;
 }
 
 int reader(const char *fichier) {
 	FILE *file = NULL;
+
 
 	file = fopen(fichier, "r");
 
@@ -35,21 +44,23 @@ int reader(const char *fichier) {
 		int h = 0;
 		double a = 0.0;
 		double b = 0.0;
-		char line[1000];
+		char line[500]; // maximal characters per line
 		int ans_line = 0;
 
 		while (fgets(line, sizeof(line),file)) {
 			//BUG : sem is not declared
 			// sem_wait(&sem); //sem_past doit etre appele a chaque creation d'un thread calculator
-			if (sscanf(line, "%s %d %d %lf %lf", n, &w, &h, &a, &b) == 5) {
+			if (sscanf(line, "%s %d %d %lf %lf", n, &w, &h, &a, &b) == 5
+																									 && line[0] != '#') {
 				new_fract = fractal_new(n, w, h, a, b);
-				// printf("%s %d %d %lf %lf\n", n, w, h, a, b); // ca marche
+				printf("%s %d %d %lf %lf\n", n, w, h, a, b); // ca marche
 
-				// int err = push(&buffer, new_fract); // BUG : buffer not declared
-				// if (err != 0) {
+				int err = push(&buffer, new_fract); // BUG : buffer not declared
+				if (err != 0) {
+					printf("pas content\n");
 					// error(err, "push \n"); // BUG : too few arguments to `error`
-					// exit(1);
-				// }
+					exit(1);
+				}
 			}
 		}
 		fclose(file);

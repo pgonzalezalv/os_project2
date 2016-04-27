@@ -3,6 +3,8 @@
 
 #define MAX_BUFFER_SIZE 10 // taille par defaut, si on a pas de --maxthreads
 
+extern struct buffer_node *buffer;
+
 /*
  * struct buffer_node est une liste doublement chainee, c'est un buffer de
  * taille maximale MAX_BUFFER_SIZE
@@ -17,7 +19,7 @@ struct buffer_node{
 };
 
 /*
- * reader lit un fichier sur l'entree standard et creer des fractales.
+ * reader lit un fichier sur l'entree standard et cree des fractales.
  * @fichier: le fichier a lire
  * @return: 0 si on a atteint la fin du fichier sans erreur,
  *          1 sinon.
