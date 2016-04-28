@@ -26,7 +26,7 @@ struct buffer_node{
  *
  * commentaires : Il faut un mutex pour chaque ligne lu
  */
-int reader(const char *fichier);
+int reader(char *fichier);
 
 /*
  * calculator description
@@ -58,7 +58,7 @@ void free_list(struct buffer_node **list);
 /*
  * print_fractal affiche la fractale
  */
-void print_fractal(const struct fractal *fract); 
+void print_fractal(const struct fractal *fract);
 /*
  * print_buffer affiche le contenu du buffer
  */

@@ -19,9 +19,10 @@ int main(int argc, char *argv[])
 
 	int test = 0;
 
+	printf("Reading : %s\n", argv[1]);
 	test = reader(argv[1]);
 
-	
+
 	// il faut un sémaphore pour multi-threader la fonction reader
 	// sem_t sem;
 	// sem_init(&sem, 0, MAX_BUFFER_SIZE);
@@ -33,11 +34,11 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-int reader(const char *fichier)
+int reader(char *fichier)
 {
 	FILE *file = NULL;
 
-
+  printf("Open file");
 	file = fopen(fichier, "r");
 
 	// il faut un sem_post
@@ -56,9 +57,10 @@ int reader(const char *fichier)
 			// sem_wait(&sem); //sem_past doit etre appele a chaque creation d'un thread calculator
 			if (sscanf(line, "%s %d %d %lf %lf", n, &w, &h, &a, &b) == 5
 																									 && line[0] != '#') {
-				new_fract = fractal_new(n, w, h, a, b);
+				new_fract = fractal_new((const char*)n, w, h, a, b);
+				print_fractal(new_fract);
 				printf("%s %d %d %lf %lf\n", n, w, h, a, b); // ca marche
-
+				printf("here");
 				int err = enqueue(new_fract); // BUG : buffer not declared
 				if (err != 0) {
 					fclose(file); // si il y a une erreur, on arrete la lecture
@@ -88,9 +90,10 @@ int calculator(struct fractal *fract)
 //int enqueue(struct buffer_node **list, struct fractal *new_fract){
 int enqueue(struct fractal *new_fract)
 {
+	printf("here");
 	struct buffer_node *new;
   new = malloc(sizeof(*new));
-
+  printf("here");
   if (new == NULL) // malloc test
     return -1;
 

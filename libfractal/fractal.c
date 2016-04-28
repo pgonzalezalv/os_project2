@@ -5,17 +5,18 @@
 
 struct fractal *fractal_new(const char *name, int width, int height, double a, double b)
 {
+    printf("hello");
     struct fractal *f_new = malloc(sizeof(struct fractal));
-
+    printf("hello");
     int n = 65;
     strncpy(f_new->name, name, (size_t) n);
-
+    printf("hello");
     f_new->value = (int *)malloc(height * width * sizeof(int));
     f_new->w = width;
     f_new->h = height;
     f_new->a = a;
     f_new->b = b;
-
+    printf("hello");
     return NULL;
 }
 
