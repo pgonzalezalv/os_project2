@@ -10,8 +10,8 @@
 #include "main.h"
 
 //struct buffer_node *buffer;
-struct buffer_node *startB = NULL;
-struct buffer_node *endB = NULL;
+struct buffer_node *head = NULL;
+struct buffer_node *tail = NULL;
 
 int main(int argc, char *argv[])
 {
@@ -32,7 +32,8 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-int reader(const char *fichier) {
+int reader(const char *fichier)
+{
 	FILE *file = NULL;
 
 
@@ -41,6 +42,9 @@ int reader(const char *fichier) {
 	// il faut un sem_post
 	if (file != NULL) { // file succesfully opened
 		struct fractal *new_fract = NULL;									//QUESTION : on le met pas sur malloc ??
+		char n[65] = {0};
+		int w = 0;
+		int h = 0;
 		double a = 0.0;
 		double b = 0.0;
 		char line[500]; // maximal characters per line
@@ -72,7 +76,8 @@ int reader(const char *fichier) {
 	return 0;
 }
 
-int calculator(struct fractal *fract) {
+int calculator(struct fractal *fract)
+{
 
 	/* TO DO */
 
@@ -80,7 +85,8 @@ int calculator(struct fractal *fract) {
 }
 
 //int enqueue(struct buffer_node **list, struct fractal *new_fract){
-int enqueue(struct fractal *new_fract){
+int enqueue(struct fractal *new_fract)
+{
 	struct buffer_node *new;
   new = malloc(sizeof(*new));												//QUESTION : ça suffit pour dire la taille ??
 
@@ -88,35 +94,43 @@ int enqueue(struct fractal *new_fract){
     return -1;
 
   new->fract = new_fract;
-  //new->next = *list;
-	new->next = *startB;
+	new->next = head;
 	new->previous = NULL;
+	head->previous = new;
   //*list = new;
-	*startB = new;
-	if(startB->next == NULL) //Si le buffer etait vide jusque la
-		endB = startB;
+	head = new;
+
+	if(tail == NULL) //Si le buffer etait vide jusque la
+		tail = head;
 
 	return 0;
 }
 
 //struct fractal* dequeue(struct buffer_node **listEnd) {  //QUESTION : j'ai mis listEnd pour bien specifier qu'on partira de la fin du buffer
-struct fractal* dequeue() {
-	//if (listEnd == NULL){
-	if (endB == NULL){
+struct fractal* dequeue()
+{
+	if (tail == NULL){
 		printf("Error : buffer is empty\n");
 		return NULL;
 	}
 
-	if (endB == startB) //Si le buffer ne comporte qu'un element
-		startB = NULL
+	if (tail == head) //Si le buffer ne comporte qu'un element
+		head = NULL;
 
 	struct fractal *fract = NULL;
-	struct buffer_node *toRemove = *listEnd;
+	struct buffer_node *toRemove = tail;
 
-	fract = (*listEnd)->fract;
-	//free((*listEnd)->fract);
-	*listEnd = (*listEnd)->previous;
+	fract = tail->fract;
+	fractal_free(tail->fract);
+	tail = tail->previous;
 
 	free(toRemove);
 	return fract;
+}
+
+void free_list(struct buffer_node **list)
+{
+	int i = 0;
+	for (i = 0; i < count; i++) // replace count by BUFFER_SIZE
+		dequeue();
 }
