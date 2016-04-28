@@ -93,17 +93,18 @@ int enqueue(struct fractal *new_fract)
 	new = malloc(sizeof(*new));
 
 	if (new == NULL) // malloc test
-	return -1;
+		return -1;
 
 	new->fract = new_fract;
 	new->next = head;
 	new->previous = NULL;
 	if (head == NULL)
-	head = new;
+		head = new;
 	head->previous = new;
 	head = new;
 	if (tail == NULL) //Si le buffer etait vide jusque la
-	tail = head;
+		tail = head;
+
 	buffer_size++;
 
 	return 0;
@@ -117,7 +118,7 @@ struct fractal* dequeue()
 	}
 
 	if (tail == head) //Si le buffer ne comporte qu'un element
-	head = NULL;
+		head = NULL;
 
 	struct fractal *fract = NULL;
 	struct buffer_node *toRemove = tail;
@@ -137,7 +138,7 @@ void free_list(struct buffer_node **list)
 	int i = 0;
 
 	while (buffer_size != 0)
-	dequeue();
+		dequeue();
 }
 
 void print_fractal(const struct fractal *fract)
@@ -154,7 +155,7 @@ void print_fractal(const struct fractal *fract)
 
 void print_buffer()
 {
-	struct buffer_node* current = head;
+	struct buffer_node *current = head;
 	while (current)
-	print_fractal(current->fract);
+		print_fractal(current->fract);
 }
