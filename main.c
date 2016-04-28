@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 	/* TO DO */
 
 	// sem_destroy(&sem);
-	
+
 	return 0;
 }
 
@@ -106,4 +106,9 @@ struct fractal* pop(struct buffer_node **list) {
 
 	free(toRemove);
 	return fract;
+}
+
+void free_list(struct buffer_node **list) {
+	while(list)
+		pop(list);
 }

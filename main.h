@@ -37,19 +37,25 @@ int calculator(struct fractal *fract);
 
 /*
  * push ajoute un noeud a l'avant du buffer.
- * @arg : prend comme argument un pointeur vers le debut d'une liste
- *        doublement chainee et une structure fractal.
- * @return : 0 si le noeud est ajoute a l'avant de la liste,
- *           -1 si une erreur apparait.
+ * @list: pointeur vers le debut d'une liste doublement chainee
+ * @new_fract: structure fractal a ajouter a la liste
+ * @return: 0 si le noeud est ajoute a l'avant de la liste,
+ *         -1 si une erreur apparait.
  */
 int push(struct buffer_node **list, struct fractal *new_fract);
 
 /*
  * pop enleve un element a la fin du buffer.
- * @arg : prend comme argument un pointeur vers la fin d'une liste doublement
+ * @list: pointeur vers la fin d'une liste doublement
  *        chainee.
- * @return : la structure fractal enlevee du buffer.
+ * @return: la structure fractal enlevee du buffer.
  */
 struct fractal* pop(struct buffer_node **list);
+
+/*
+ * free_list libere tous les noeuds d'une liste
+ * @list: pointeur vers le debut d'une liste doublement chainee
+ */
+ void free_list(struct buffer_node **list);
 
 #endif
