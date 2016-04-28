@@ -98,13 +98,13 @@ int enqueue(struct fractal *new_fract)
 	new->fract = new_fract;
 	new->next = head;
 	new->previous = NULL;
-	if (head == NULL)
+	if (head == NULL) { // empty buffer
 		head = new;
-	head->previous = new;
-	head = new;
-	if (tail == NULL) //Si le buffer etait vide jusque la
 		tail = head;
-
+	} else if (head != NULL) { // at least 1 element in buffer
+		head->previous = new;
+		head = new;
+	}
 	buffer_size++;
 
 	return 0;
@@ -156,6 +156,6 @@ void print_fractal(const struct fractal *fract)
 void print_buffer()
 {
 	struct buffer_node *current = head;
-	while (current)
+	while (current->next)
 		print_fractal(current->fract);
 }
