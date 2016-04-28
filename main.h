@@ -55,4 +55,13 @@ struct fractal* dequeue();
  */
 void free_list(struct buffer_node **list);
 
+/*
+ * print_fractal affiche la fractale
+ */
+void print_fractal(const struct fractal *fract); 
+/*
+ * print_buffer affiche le contenu du buffer
+ */
+void print_buffer();
+
 #endif

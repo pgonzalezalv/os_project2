@@ -12,6 +12,7 @@
 //struct buffer_node *buffer;
 struct buffer_node *head = NULL;
 struct buffer_node *tail = NULL;
+int buffer_size = 0;
 
 int main(int argc, char *argv[])
 {
@@ -20,7 +21,7 @@ int main(int argc, char *argv[])
 
 	test = reader(argv[1]);
 
-
+	
 	// il faut un sémaphore pour multi-threader la fonction reader
 	// sem_t sem;
 	// sem_init(&sem, 0, MAX_BUFFER_SIZE);
@@ -41,7 +42,7 @@ int reader(const char *fichier)
 
 	// il faut un sem_post
 	if (file != NULL) { // file succesfully opened
-		struct fractal *new_fract = NULL;									//QUESTION : on le met pas sur malloc ??
+		struct fractal *new_fract = NULL;
 		char n[65] = {0};
 		int w = 0;
 		int h = 0;
@@ -58,10 +59,10 @@ int reader(const char *fichier)
 				new_fract = fractal_new(n, w, h, a, b);
 				printf("%s %d %d %lf %lf\n", n, w, h, a, b); // ca marche
 
-				int err = push(&buffer, new_fract); // BUG : buffer not declared
+				int err = enqueue(new_fract); // BUG : buffer not declared
 				if (err != 0) {
 					fclose(file); // si il y a une erreur, on arrete la lecture
-					printf("Erreur : push didn't worked correctly\n");
+					printf("Error : push didn't worked correctly\n");
 					// error(err, "push \n"); // BUG : too few arguments to `error`
 					exit(1);
 				}
@@ -88,7 +89,7 @@ int calculator(struct fractal *fract)
 int enqueue(struct fractal *new_fract)
 {
 	struct buffer_node *new;
-  new = malloc(sizeof(*new));												//QUESTION : ça suffit pour dire la taille ??
+  new = malloc(sizeof(*new));
 
   if (new == NULL) // malloc test
     return -1;
@@ -102,11 +103,10 @@ int enqueue(struct fractal *new_fract)
 
 	if(tail == NULL) //Si le buffer etait vide jusque la
 		tail = head;
-
+	buffer_size++;
 	return 0;
 }
 
-//struct fractal* dequeue(struct buffer_node **listEnd) {  //QUESTION : j'ai mis listEnd pour bien specifier qu'on partira de la fin du buffer
 struct fractal* dequeue()
 {
 	if (tail == NULL){
@@ -125,12 +125,27 @@ struct fractal* dequeue()
 	tail = tail->previous;
 
 	free(toRemove);
+
+	buffer_size--;
 	return fract;
 }
 
 void free_list(struct buffer_node **list)
 {
 	int i = 0;
-	for (i = 0; i < count; i++) // replace count by BUFFER_SIZE
+
+	while(buffer_size != 0)
 		dequeue();
+}
+
+void print_fractal(const struct fractal *fract)
+{
+	printf("%s %d %d %lf %lf\n", fractal_get_name(fract), fractal_get_width(fract), fractal_get_height(fract), fractal_get_a(fract), fractal_get_b(fract));
+}
+
+void print_buffer()
+{
+	struct buffer_node* current = head;
+	while (current)
+		print_fractal(current->fract);
 }
