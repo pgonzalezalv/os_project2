@@ -30,7 +30,8 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-int reader(const char *fichier) {
+int reader(const char *fichier)
+{
 	FILE *file = NULL;
 
 
@@ -72,14 +73,16 @@ int reader(const char *fichier) {
 	return 0;
 }
 
-int calculator(struct fractal *fract) {
+int calculator(struct fractal *fract)
+{
 
 	/* TO DO */
 
 	return 0;
 }
 
-int push(struct buffer_node **list, struct fractal *new_fract){
+int push(struct buffer_node **list, struct fractal *new_fract)
+{
 	struct buffer_node *new;
   new = malloc(sizeof(*new));
 
@@ -94,7 +97,8 @@ int push(struct buffer_node **list, struct fractal *new_fract){
 	return 0;
 }
 
-struct fractal* pop(struct buffer_node **list) {
+struct fractal* pop(struct buffer_node **list)
+{
 	// if (list == NULL)
 		// return 0;
 
@@ -108,7 +112,8 @@ struct fractal* pop(struct buffer_node **list) {
 	return fract;
 }
 
-void free_list(struct buffer_node **list) {
+void free_list(struct buffer_node **list)
+{
 	while(list)
 		pop(list);
 }

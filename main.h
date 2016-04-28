@@ -56,6 +56,6 @@ struct fractal* pop(struct buffer_node **list);
  * free_list libere tous les noeuds d'une liste
  * @list: pointeur vers le debut d'une liste doublement chainee
  */
- void free_list(struct buffer_node **list);
+void free_list(struct buffer_node **list);
 
 #endif
