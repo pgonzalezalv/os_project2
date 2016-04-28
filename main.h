@@ -46,6 +46,7 @@ int enqueue(struct fractal *new_fract);
 /*
  * dequeue enleve un element a la fin du buffer.
  * @return: la structure fractal enlevee du buffer.
+ *          NULL si buffer vide
  */
 struct fractal* dequeue();
 

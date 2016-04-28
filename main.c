@@ -60,7 +60,6 @@ int reader(char *fichier)
 			if (sscanf(line, "%s %d %d %lf %lf", n, &w, &h, &a, &b) == 5
 			&& line[0] != '#') {
 				new_fract = fractal_new(n, w, h, a, b);
-				print_fractal(new_fract);
 				int err = enqueue(new_fract); // BUG : buffer not declared
 				if (err != 0) {
 					fclose(file); // si il y a une erreur, on arrete la lecture
@@ -113,24 +112,24 @@ int enqueue(struct fractal *new_fract)
 
 struct fractal* dequeue()
 {
-	if (tail == NULL){
+	if (tail == NULL){ // empty buffer
 		printf("Error : buffer is empty\n");
 		return NULL;
 	}
 
-	if (tail == head) //Si le buffer ne comporte qu'un element
+	if (tail == head) // buffer has 1 element
 		head = NULL;
 
 	struct fractal *fract = NULL;
 	struct buffer_node *toRemove = tail;
 
 	fract = tail->fract;
-	fractal_free(tail->fract);
 	tail = tail->previous;
+	tail->next = NULL;
 
 	free(toRemove);
-
 	buffer_size--;
+
 	return fract;
 }
 
@@ -157,6 +156,8 @@ void print_fractal(const struct fractal *fract)
 void print_buffer()
 {
 	struct buffer_node *current = head;
-	while (current->next)
+	while (current) {
 		print_fractal(current->fract);
+		current = current->next;
+	}
 }
