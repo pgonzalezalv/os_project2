@@ -9,6 +9,7 @@
 #include "libfractal/fractal.h"
 #include "main.h"
 
+
 //struct buffer_node *buffer;
 struct buffer_node *head = NULL;
 struct buffer_node *tail = NULL;
