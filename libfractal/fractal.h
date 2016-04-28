@@ -10,14 +10,14 @@
  * @a: partie reelle des coordonnees de la fractrale
  * @b: partie imaginaire des coordonnees de la fractrale
  */
- struct fractal {
-   char name[65];
-   int *value;
-   int w;
-   int h;
-   double a;
-   double b;
- };
+struct fractal {
+    char name[65];
+    int *value;
+    int w;
+    int h;
+    double a;
+    double b;
+};
 
 /*
  * fractal_new: alloue une nouvelle structure fractal
@@ -101,9 +101,9 @@ double fractal_get_b(const struct fractal *f);
 /*
  * fractal_compute_value
  *
- * Applique la valeur de récurrence sur la fractale, aux coordonnées correspondantes
- * au pixel (x,y) de l'image finale, et appelle fractal_set_value() pour
- * enregistrer le nombre d'itérations effectuées.
+ * Applique la valeur de récurrence sur la fractale, aux coordonnées
+ * correspondantes au pixel (x,y) de l'image finale, et appelle
+ * fractal_set_value() pour enregistrer le nombre d'itérations effectuées.
  *
  * @f: fractale
  * @x: abscisse

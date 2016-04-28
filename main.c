@@ -39,7 +39,7 @@ int reader(char *fichier)
 	printf("begin reader\n");
 	FILE *file = NULL;
 
-  printf("Open file\n");
+	printf("Open file\n");
 	file = fopen(fichier, "r");
 
 	// il faut un sem_post
@@ -57,13 +57,9 @@ int reader(char *fichier)
 			//BUG : sem is not declared
 			// sem_wait(&sem); //sem_past doit etre appele a chaque creation d'un thread calculator
 			if (sscanf(line, "%s %d %d %lf %lf", n, &w, &h, &a, &b) == 5
-																									 && line[0] != '#') {
+			&& line[0] != '#') {
 				new_fract = fractal_new(n, w, h, a, b);
-
 				print_fractal(new_fract);
-
-				printf("%s %d %d %lf %lf\n", n, w, h, a, b); // ca marche
-				printf("here1\n");
 				int err = enqueue(new_fract); // BUG : buffer not declared
 				if (err != 0) {
 					fclose(file); // si il y a une erreur, on arrete la lecture
@@ -94,20 +90,20 @@ int calculator(struct fractal *fract)
 int enqueue(struct fractal *new_fract)
 {
 	struct buffer_node *new;
-  new = malloc(sizeof(*new));
+	new = malloc(sizeof(*new));
 
-  if (new == NULL) // malloc test
-    return -1;
+	if (new == NULL) // malloc test
+	return -1;
 
-  new->fract = new_fract;
+	new->fract = new_fract;
 	new->next = head;
 	new->previous = NULL;
- 	if (head == NULL)
- 		head = new;
+	if (head == NULL)
+	head = new;
 	head->previous = new;
 	head = new;
-	if(tail == NULL) //Si le buffer etait vide jusque la
-		tail = head;
+	if (tail == NULL) //Si le buffer etait vide jusque la
+	tail = head;
 	buffer_size++;
 
 	return 0;
@@ -121,7 +117,7 @@ struct fractal* dequeue()
 	}
 
 	if (tail == head) //Si le buffer ne comporte qu'un element
-		head = NULL;
+	head = NULL;
 
 	struct fractal *fract = NULL;
 	struct buffer_node *toRemove = tail;
@@ -140,8 +136,8 @@ void free_list(struct buffer_node **list)
 {
 	int i = 0;
 
-	while(buffer_size != 0)
-		dequeue();
+	while (buffer_size != 0)
+	dequeue();
 }
 
 void print_fractal(const struct fractal *fract)
@@ -160,5 +156,5 @@ void print_buffer()
 {
 	struct buffer_node* current = head;
 	while (current)
-		print_fractal(current->fract);
+	print_fractal(current->fract);
 }

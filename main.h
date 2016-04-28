@@ -13,9 +13,9 @@ extern struct buffer_node *buffer;
  * @fract: element courant.
  */
 struct buffer_node{
-  struct buffer_node *next;
-  struct buffer_node *previous;
-  struct fractal *fract;
+    struct buffer_node *next;
+    struct buffer_node *previous;
+    struct fractal *fract;
 };
 
 /*
