@@ -3,7 +3,7 @@ BIN=main
 
 # Compiler cmd, optimisations options and linkers
 CC=gcc
-CFLAGS=-Wall -W
+CFLAGS=-Wall -W -I/
 LDFLAGS=-lpthread -lSDL
 
 # Test using CUnit installed locally
@@ -13,12 +13,12 @@ TEST_SRC=test/*.c
 SRC=$(wildcard *.c)
 OBJ=$(SRC:.c=.o)
 
-LIB_SRC=$(wildcard libfractal/*.c)
+LIB_FILES=$(wildcard libfractal/*.a)
 
 ## main     : Generate fractal - TODO
-main: $(SRC) $(LIB_SRC)
+main: $(SRC)
 	@echo "building $@"
-	gcc -o $@ -c $< $(CFLAGS)
+	gcc -o $@ -c $< $(LIB_FILES) $(CFLAGS) $(LDFLAGS)
 
 ## lib      : Compile libfractal - code DONE, TODO : linker -lSDL
 ## test     : Compile and execute tests - TODO : multiple tests
