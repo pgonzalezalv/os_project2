@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -I/usr/include/SDL
+CFLAGS=-g -Wall -I/usr/include/SDL
 
 AR=ar
 ARFLAGS=-r
@@ -20,17 +20,16 @@ $(LIB_FILES): $(OBJ_FILES)
 
 # Compile fractal library
 *.o:
-	@echo "building $@"
-	$(CC) -o $@ -o $< $(CFLAGS) $(LDFLAGS)
+	$(CC) -o $@ -c $< $(CFLAGS)
 
 ## clean    : Remove auto-generated files
 clean:
 	@echo "cleaning"
-	rm -f $(OBJ_FILES)
+	rm -rf $(OBJ_FILES)
 
 ## mrproper : Remove all built files
 mrproper: clean
-	@echo "hardcore cleaning"
+	@echo "mrproper cleaning"
 	rm -f $(LIB_FILES)
 
 ## help     : Show different make options

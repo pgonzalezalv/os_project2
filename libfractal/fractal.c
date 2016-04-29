@@ -7,7 +7,6 @@ struct fractal *fractal_new(const char *name, int width, int height, double a, d
 {
     struct fractal *f_new = malloc(sizeof(struct fractal));
     if (f_new == NULL) {
-        printf("problem malloc\n");
         return NULL;
     }
 
@@ -16,7 +15,6 @@ struct fractal *fractal_new(const char *name, int width, int height, double a, d
 
     f_new->value = (int *)malloc(height * width * sizeof(int));
     if (f_new->value == NULL) {
-        printf("problem malloc\n");
         return NULL;
     }
     f_new->w = width;

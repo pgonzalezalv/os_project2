@@ -62,7 +62,7 @@ int reader(char *fichier)
 				new_fract = fractal_new(n, w, h, a, b);
 				int err = enqueue(new_fract); // BUG : buffer not declared
 				if (err != 0) {
-					fclose(file); // si il y a une erreur, on arrete la lecture
+					fclose(file); // si il y a une erreur,s on arrete la lecture
 					printf("Error : push didn't worked correctly\n");
 					// error(err, "push \n"); // BUG : too few arguments to `error`
 					exit(1);
