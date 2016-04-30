@@ -2,7 +2,7 @@
 #define _FRACTAL_H
 
 /*
- * struct fractal represente une fractale
+ * fractal_t represente une fractale
  * @name: nom de la fractale
  * @value: valeur des pixels
  * @w: largeur du pixel en pixels
@@ -10,14 +10,14 @@
  * @a: partie reelle des coordonnees de la fractrale
  * @b: partie imaginaire des coordonnees de la fractrale
  */
-struct fractal {
+typedef struct {
     char name[65];
     int *value;
     int w;
     int h;
     double a;
     double b;
-};
+} fractal_t;
 
 /*
  * fractal_new: alloue une nouvelle structure fractal
@@ -27,16 +27,16 @@ struct fractal {
  * @height: hauteur de l'image finale
  * @a: partie réelle des coordonnées de la fractale
  * @b: partie imaginaire des coordonnées de la fractale
- * @return: un pointeur vers une struct fractal, ou NULL si erreur
+ * @return: un pointeur vers une fractal_t, ou NULL si erreur
  */
-struct fractal *fractal_new(const char *name, int width, int height, double a, double b);
+fractal_t *fractal_new(const char *name, int width, int height, double a, double b);
 
 /*
- * fractal_free: libère la mémoire utilisée par une struct fractal
+ * fractal_free: libère la mémoire utilisée par une fractal_t
  *
  * @f: fractale à libérer
  */
-void fractal_free(struct fractal *f);
+void fractal_free(fractal_t *f);
 
 /*
  * fractal_get_name: retourne le nom de la fractale
@@ -44,7 +44,7 @@ void fractal_free(struct fractal *f);
  * @f: fractale
  * @return: nom de la fractale
  */
-const char *fractal_get_name(const struct fractal *f);
+const char *fractal_get_name(const fractal_t *f);
 
 /*
  * fractal_get_value: retourne la valeur correspondant à un pixel de l'image
@@ -54,7 +54,7 @@ const char *fractal_get_name(const struct fractal *f);
  * @y: ordonnée
  * @return: valeur du pixel (x,y) de l'image de la fractale
  */
-int fractal_get_value(const struct fractal *f, int x, int y);
+int fractal_get_value(const fractal_t *f, int x, int y);
 
 /*
  * fractal_set_value: défini la valeur correspondant à un pixel de l'image
@@ -64,7 +64,7 @@ int fractal_get_value(const struct fractal *f, int x, int y);
  * @y: ordonnée
  * @val: valeur
  */
-void fractal_set_value(struct fractal *f, int x, int y, int val);
+void fractal_set_value(fractal_t *f, int x, int y, int val);
 
 /*
  * fractal_get_width: retourne la largeur de l'image de la fractale
@@ -72,7 +72,7 @@ void fractal_set_value(struct fractal *f, int x, int y, int val);
  * @f: fractale
  * @return: largeur
  */
-int fractal_get_width(const struct fractal *f);
+int fractal_get_width(const fractal_t *f);
 
 /*
  * fractal_get_height: retourne la hauteur de l'image de la fractale
@@ -80,7 +80,7 @@ int fractal_get_width(const struct fractal *f);
  * @f: fractale
  * @return: hauteur
  */
-int fractal_get_height(const struct fractal *f);
+int fractal_get_height(const fractal_t *f);
 
 /*
  * fractal_get_a: retourne la partie réelle des coordonnées de la fractale
@@ -88,7 +88,7 @@ int fractal_get_height(const struct fractal *f);
  * @f: fractale
  * @return: partie réelle
  */
-double fractal_get_a(const struct fractal *f);
+double fractal_get_a(const fractal_t *f);
 
 /*
  * fractal_get_b: retourne la partie imaginaire des coordonnées de la fractale
@@ -96,7 +96,7 @@ double fractal_get_a(const struct fractal *f);
  * @f: fractale
  * @return: partie imaginaire
  */
-double fractal_get_b(const struct fractal *f);
+double fractal_get_b(const fractal_t *f);
 
 /*
  * fractal_compute_value
@@ -110,7 +110,7 @@ double fractal_get_b(const struct fractal *f);
  * @y: ordonnée
  * @return: nombre d'itérations
  */
-int fractal_compute_value(struct fractal *f, int x, int y);
+int fractal_compute_value(fractal_t *f, int x, int y);
 
 /*
  * write_bitmap_sdl
@@ -121,6 +121,6 @@ int fractal_compute_value(struct fractal *f, int x, int y);
  * @fname: nom du fichier de sortie
  * @return: 0 si pas d'erreurs, -1 sinon
  */
-int write_bitmap_sdl(const struct fractal *f, const char *fname);
+int write_bitmap_sdl(const fractal_t *f, const char *fname);
 
 #endif

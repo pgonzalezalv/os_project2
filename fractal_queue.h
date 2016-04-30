@@ -8,7 +8,7 @@
  * @previous: element precedent, NULL si debut de liste
  * @fract: element courant.
  */
-typedef struct buffer_node {
+typedef struct {
     struct buffer_node *next;
     struct buffer_node *previous;
     fractal_t *fract;

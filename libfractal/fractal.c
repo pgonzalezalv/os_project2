@@ -3,9 +3,9 @@
 
 #include "fractal.h"
 
-struct fractal *fractal_new(const char *name, int width, int height, double a, double b)
+fractal_t *fractal_new(const char *name, int width, int height, double a, double b)
 {
-    struct fractal *f_new = malloc(sizeof(struct fractal));
+    fractal_t *f_new = malloc(sizeof(fractal_t));
     if (f_new == NULL) {
         return NULL;
     }
@@ -24,47 +24,47 @@ struct fractal *fractal_new(const char *name, int width, int height, double a, d
     return f_new;
 }
 
-void fractal_free(struct fractal *f)
+void fractal_free(fractal_t *f)
 {
     free(f->value);
     free(f);
 }
 
-const char *fractal_get_name(const struct fractal *f)
+const char *fractal_get_name(const fractal_t *f)
 {
     return f->name;
 }
 
-int fractal_get_value(const struct fractal *f, int x, int y)
+int fractal_get_value(const fractal_t *f, int x, int y)
 {
     int w = fractal_get_width(f);
     int offset = (x-1) + (y-1) * w;
     return f->value[offset];
 }
 
-void fractal_set_value(struct fractal *f, int x, int y, int val)
+void fractal_set_value(fractal_t *f, int x, int y, int val)
 {
     int w = fractal_get_width(f);
     int offset = (x-1) + (y-1) * w;
     f->value[offset] = val;
 }
 
-int fractal_get_width(const struct fractal *f)
+int fractal_get_width(const fractal_t *f)
 {
     return f->w;
 }
 
-int fractal_get_height(const struct fractal *f)
+int fractal_get_height(const fractal_t *f)
 {
     return f->h;
 }
 
-double fractal_get_a(const struct fractal *f)
+double fractal_get_a(const fractal_t *f)
 {
     return f->a;
 }
 
-double fractal_get_b(const struct fractal *f)
+double fractal_get_b(const fractal_t *f)
 {
     return f->b;
 }

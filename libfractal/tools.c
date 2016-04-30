@@ -24,7 +24,7 @@
 #define AMASK 0xff000000
 #endif
 
-int write_bitmap_sdl(const struct fractal *f, const char *fname)
+int write_bitmap_sdl(const fractal_t *f, const char *fname)
 {
     SDL_Surface *back;
     SDL_Rect pix;
@@ -80,7 +80,7 @@ static int iter_julia(double zx, double zy, double a, double b, int it)
     return iter_julia(zx*zx - zy*zy + a, 2*zx*zy + b, a, b, it+1);
 }
 
-int fractal_compute_value(struct fractal *f, int x, int y)
+int fractal_compute_value(fractal_t *f, int x, int y)
 {
     double zx, zy;
     double a, b;

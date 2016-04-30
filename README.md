@@ -37,7 +37,7 @@ they contain :
 * `./libfractal/fractal.c`
 * `./libfractal/fractal.h`
 * `./libfractal/Makefile`
-* `./libfractal/tools.c` tools to build a BMP file from a `struct fractal`
+* `./libfractal/tools.c` tools to build a BMP file from a `fractal_t`
 * `./LICENSE.md`
 * `./main.c`
 * `./Makefile`
