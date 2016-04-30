@@ -45,7 +45,7 @@ int reader(char *fichier)
 
 	// il faut un sem_post
 	if (file != NULL) { // file succesfully opened
-		struct fractal *new_fract = NULL;
+		fractal_t *new_fract = NULL;
 		char n[65] = {0};
 		int w = 0;
 		int h = 0;
@@ -78,86 +78,21 @@ int reader(char *fichier)
 	return 0;
 }
 
-int calculator(struct fractal *fract)
+int calculator(fractal_t *fract)
 {
 
-	/* TO DO */
-
-	return 0;
-}
-
-//int enqueue(struct buffer_node **list, struct fractal *new_fract){
-int enqueue(struct fractal *new_fract)
-{
-	struct buffer_node *new;
-	new = malloc(sizeof(*new));
-
-	if (new == NULL) // malloc test
-		return -1;
-
-	new->fract = new_fract;
-	new->next = head;
-	new->previous = NULL;
-	if (head == NULL) { // empty buffer
-		head = new;
-		tail = head;
-	} else if (head != NULL) { // at least 1 element in buffer
-		head->previous = new;
-		head = new;
-	}
-	buffer_size++;
-
-	return 0;
-}
-
-struct fractal* dequeue()
-{
-	if (tail == NULL){ // empty buffer
-		printf("Error : buffer is empty\n");
-		return NULL;
-	}
-
-	if (tail == head) // buffer has 1 element
-		head = NULL;
-
-	struct fractal *fract = NULL;
-	struct buffer_node *toRemove = tail;
-
-	fract = tail->fract;
-	tail = tail->previous;
-	tail->next = NULL;
-
-	free(toRemove);
-	buffer_size--;
-
-	return fract;
-}
-
-void free_list(struct buffer_node **list)
-{
 	int i = 0;
+	int count = 0;
+	fractal_t *toCompute = NULL;
 
-	while (buffer_size != 0)
-		dequeue();
-}
+	toCompute = dequeue();
 
-void print_fractal(const struct fractal *fract)
-{
-	const char *n = fractal_get_name(fract);
-	int w = fractal_get_width(fract);
-	int h = fractal_get_height(fract);
-	double a = fractal_get_a(fract);
-	double b = fractal_get_b(fract);
-
-	printf("printing fract : \n");
-	printf("%s %d %d %lf %lf\n", n, w, h, a, b);
-}
-
-void print_buffer()
-{
-	struct buffer_node *current = head;
-	while (current) {
-		print_fractal(current->fract);
-		current = current->next;
+	for ( i = 0; i < count; i++) {
+		fractal_compute_value(toCompute)
 	}
+
+	int fractal_compute_value(fractal_t *f, int x, int y);
+
+
+	return 0;
 }
