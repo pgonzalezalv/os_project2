@@ -13,9 +13,9 @@
 // extern bool
 extern int num_calculator;
 
-/* Checks for -d & --maxthreads n options and sets there values
- * @argc:
- * @argv:
+/* Checks for -d & --maxthreads n options and sets their values
+ * @argc: number of input arguments argv
+ * @argv: command line input arguments (includes name of executable)
  */
 void get_options(int argc, char *argv[]);
 
