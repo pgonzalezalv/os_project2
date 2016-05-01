@@ -1,5 +1,5 @@
-#ifndef _FRACTAl_QUEUE_H
-#define _FRACTAl_QUEUE_H
+#ifndef _FRACTAL_QUEUE_H
+#define _FRACTAL_QUEUE_H
 
 /*
  * buffer_node_t est une liste doublement chainee, c'est un buffer de

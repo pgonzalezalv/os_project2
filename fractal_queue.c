@@ -1,3 +1,5 @@
+#include "fractal_queue.h"
+
 buffer_node_t *new_queue()
 {
     buffer_node_t *fractal_buffer = NULL;
@@ -79,3 +81,4 @@ void print_buffer()
 		print_fractal(current->fract);
 		current = current->next;
 	}
+}
