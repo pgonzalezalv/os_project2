@@ -6,6 +6,6 @@
  * @fract:
  * @return:
  */
-int calculator(fractal_t *fract);
+int calculator();
 
 #endif

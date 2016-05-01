@@ -1,18 +1,24 @@
-int calculator(fractal_t *fract)
+#include "calculator.h"
+#include "libfractal/fractal.h"
+
+int calculator()
 {
 
-	int i = 0;
-	int count = 0;
+	int x = 0;
+	int y = 0;
+	int width = 0;
+	int height = 0;
 	fractal_t *toCompute = NULL;
 
 	toCompute = dequeue();
+	width = toCompute->width
+	height = toCompute->height
 
-	for ( i = 0; i < count; i++) {
-		fractal_compute_value(toCompute)
+	for ( x = 0; x < width ; x++) {
+		for ( y = 0; y < height ; y++) {
+			fractal_compute_value(toCompute, x, y);
+		}
 	}
-
-	int fractal_compute_value(fractal_t *f, int x, int y);
-
 
 	return 0;
 }
