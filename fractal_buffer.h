@@ -1,5 +1,5 @@
-#ifndef _FRACTAL_QUEUE_H
-#define _FRACTAL_QUEUE_H
+#ifndef _FRACTAL_BUFFER_H
+#define _FRACTAL_BUFFER_H
 
 /*
  * buffer_node_t est une liste doublement chainee, c'est un buffer de
@@ -9,8 +9,8 @@
  * @fract: element courant.
  */
 typedef struct {
-    struct buffer_node *next;
-    struct buffer_node *previous;
+    buffer_node_t *next;
+    buffer_node_t *previous;
     fractal_t *fract;
 } buffer_node_t;
 

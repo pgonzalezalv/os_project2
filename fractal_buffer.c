@@ -1,4 +1,4 @@
-#include "fractal_queue.h"
+#include "fractal_buffer.h"
 
 buffer_node_t *new_queue()
 {
