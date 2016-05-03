@@ -14,23 +14,55 @@
 #include "fractal_buffer.h"
 #include "main.h"
 #include "reader.h"
+#include "fractal_buffer.h"
 
 //struct buffer_node_t *buffer;
 struct buffer_node_t *head = NULL;
 struct buffer_node_t *tail = NULL;
 int buffer_size = 0;
 
+pthread_mutex_t mutex_countf;
+pthread_mutex_t mutex_reader;
+pthread_mutex_t mutex_calculator;
+sem_t empty;
+sem_t full;
+
 int main(int argc, char *argv[])
 {
+
+	int err = 0;
+ 	void *readerOut;
+	// threads in MAIN
+	pthread_t pthread_reader[argc-2]; //max argc-2 fichier a lire
+	int count_files = 0; // nombre de fichiers ouverts
+	pthread_mutex_init(&mutex_countf,NULL); // pour dans le main
+
+	// threads in READER
+	pthread_mutex_init(&mutex_reader,NULL); // pour dans la fonction reader
+	sem_init(&empty,0,max_threads);
+
+	//threads in CALCULATOR
 	double ave_max = DBL_MIN_EXP;
-	get_options(argc, argv);
 	fractal_t *fractal_fav = NULL;
+	pthread_mutex_init(&mutex_calculator,NULL);
+	sem_init(&full,0,0);
+
+	get_options(argc, argv);
 
     if (optind < argc) { // file arguments
         printf("non-option ARGV-elements: ");
         while (optind < argc)
             printf("reading %s ", argv[optind++]);
-			reader(argv[optind]);
+			//reader(argv[optind]);
+
+			err = pthread_create(&(pthread_reader[count_files]), NULL, &readerOut, &(argv[optind]));
+			if (err != 0) {
+				error(err,err,"pthread_create");
+			}
+			pthread_mutex_lock(&mutex_countf);
+			count_files++;
+			pthread_mutex_unlock(&mutex_countf);
+
         printf("\n");
     }
 

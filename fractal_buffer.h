@@ -9,8 +9,8 @@
  * @fract: element courant.
  */
 typedef struct {
-    buffer_node_t *next;
-    buffer_node_t *previous;
+    struct buffer_node_t *next;
+    struct buffer_node_t *previous;
     fractal_t *fract;
 } buffer_node_t;
 
