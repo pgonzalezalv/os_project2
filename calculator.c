@@ -1,7 +1,8 @@
 #include "calculator.h"
 #include "libfractal/fractal.h"
+#include "../main.h"
 
-int calculator(fractal_t *f, int currentAve)
+int calculator(fractal_t *f)
 {
 
 	int x = 0;
@@ -10,29 +11,33 @@ int calculator(fractal_t *f, int currentAve)
 	int height = fractal_get_height(f);
 
 	double sum = 0;
-	int count = 0;
+	int count = width * height;
 
 	int value;
 	double average;
 
-	//fractal_t *toCompute = NULL;
-
-	//toCompute = dequeue(); 							// mettre ca dans le main
-	//width = toCompute->width
-	//height = toCompute->height
-
 	for ( y = 0; y < height ; y++) {
 		for( x = 0; x < width ; x++)  {
-			value = fractal_compute_value(toCompute, x, y);
-			fractal_set_value(f, value);
+			value = fractal_compute_value(f, x, y);
 			sum += value;
-			count++;
 		}
 	}
 
-	if (currentAve < average)
-	{
-		//change fractal_fav
+	average = sum / count;
+
+	if (print_all) { // option d active
+		write_bitmap_sdl(f, f->name);
+	}
+
+	if (ave_max < average) {
+		ave_max = average;
+
+		if(fractal_fav != NULL)
+			free(fractal_fav);
+
+		fractal_fav = f;
+	} else {
+		fractal_free(f);
 	}
 
 	return 0;

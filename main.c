@@ -22,7 +22,9 @@ int buffer_size = 0;
 
 int main(int argc, char *argv[])
 {
+	double ave_max = DBL_MIN_EXP;
 	get_options(argc, argv);
+	fractal_t *fractal_fav = NULL;
 
     if (optind < argc) { // file arguments
         printf("non-option ARGV-elements: ");

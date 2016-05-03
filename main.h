@@ -10,6 +10,8 @@
 // The number of calculations threads allowed by the command-line argument
 extern bool print_all;
 extern int max_threads;
+extern double ave_max;
+extern fractal_t *fractal_fav;
 
 /* Checks for -d & --maxthreads n options and sets their values
  * @argc: number of input arguments argv
