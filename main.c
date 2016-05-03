@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
 	// il faut un sémaphore pour multi-threader la fonction reader
 	// sem_t sem;
-	// sem_init(&sem, 0, MAX_BUFFER_SIZE);
+	// sem_init(&sem, 0, max_threads);
 
 	/* TO DO */
 
@@ -53,8 +53,8 @@ void get_options(int argc, char *argv[])
 {
 	int c = 0;
     int digit_optind = 0;
-	int num_calculator = 0;
-
+	int max_threads = 1;
+	bool print_all = false;
 
     while (true) {
         int this_option_optind = optind ? optind : 1;
@@ -74,7 +74,7 @@ void get_options(int argc, char *argv[])
                 printf("option %s", long_options[option_index].name);
                 if (optarg)
                     printf(" with arg %s", optarg);
-					num_calculator = atoi(optarg);
+					max_threads = atoi(optarg);
                 printf("\n");
                 break;
 
@@ -89,6 +89,8 @@ void get_options(int argc, char *argv[])
 
             case 'd': // -d option
                 printf("option d\n");
+				print_all = true;
+
             break;
 
             case '?':

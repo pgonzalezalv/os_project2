@@ -3,7 +3,7 @@
 
 /*
  * buffer_node_t est une liste doublement chainee, c'est un buffer de
- * taille maximale MAX_BUFFER_SIZE
+ * taille maximale max_threads
  * @next: element suivant, NULL si fin de liste
  * @previous: element precedent, NULL si debut de liste
  * @fract: element courant.
