@@ -14,9 +14,15 @@
 #include "main.h"
 #include "reader.h"
 
-int calculator(fractal_t *f)
+void calculator()
 {
+	sem_wait(&full);
+	pthread_mutex_lock(&mutex_calculator);
+	fractal_t *f = dequeue();
+	pthread_mutex_unlock(&mutex_calculator);
+	sem_post(&empty);
 
+	if(f != NULL) {
 	int x = 0;
 	int y = 0;
 	int width = fractal_get_width(f);;
@@ -54,6 +60,10 @@ int calculator(fractal_t *f)
 	} else {
 		fractal_free(f);
 	}
-	pthread_mutex_lock(&mutex_calculator);
-	return 0;
+	pthread_mutex_unlock(&mutex_calculator);
+	}
+	else if (count_files == 0) { // si le buffer est vide et pas d'autre fichier ne reste à être lu
+		pthread_exit(NULL);
+	}
+	calculator();
 }
