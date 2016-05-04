@@ -35,13 +35,11 @@ int main(int argc, char *argv[])
 {
 
 	int err = 0;
- 	void *readerOut;
-	void *calculatorOut;
+
 	// threads in MAIN
 	pthread_t pthread_reader[argc-2]; //max argc-2 fichier a lire
 	pthread_t pthread_calculator[max_threads-1];
-	pthread_mutex_init(&mutex_countf,NULL); // pour dans le main
-	sem_init(&freethread, 0, maxthreads);
+	pthread_mutex_init(&mutex_main,NULL); // pour dans le main
 
 	// threads in READER
 	pthread_mutex_init(&mutex_reader,NULL); // pour dans la fonction reader
@@ -62,7 +60,7 @@ int main(int argc, char *argv[])
 			//reader(argv[optind]);
 
 			pthread_mutex_unlock(&mutex_main);
-			err = pthread_create(&(pthread_reader[count_files]), NULL, &readerOut, &(argv[optind]));
+			err = pthread_create(&(pthread_reader[count_files]), NULL, &reader, &(argv[optind]));
 			if (err != 0) {
 				error(err,err,"pthread_create reader");
 			}
@@ -72,14 +70,12 @@ int main(int argc, char *argv[])
         printf("\n");
     }
 
-	int test = 0;
-
 	int n = 0;
 	err=0;
 	while(n<max_threads)
 	{
 		pthread_mutex_lock(&mutex_main);
-		err = pthread_create(&(pthread_calculator[n]), NULL, &calculatorOut, NULL);
+		err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
 		if (err != 0) {
 			error(err,err,"pthread_create calculator");
 		}

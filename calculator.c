@@ -9,12 +9,12 @@
 #include <unistd.h>
 
 #include "calculator.h"
-#include "fractal.h"
+#include "libfractal/fractal.h"
 #include "fractal_buffer.h"
 #include "main.h"
 #include "reader.h"
 
-void calculator()
+void *calculator()
 {
 	sem_wait(&full);
 	pthread_mutex_lock(&mutex_calculator);
