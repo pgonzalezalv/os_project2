@@ -24,12 +24,12 @@ $(LIB_FILES): $(OBJ_FILES)
 
 ## clean    : Remove auto-generated files
 clean:
-	@echo "cleaning"
+	@echo "cleaning libfractal"
 	rm -rf $(OBJ_FILES)
 
 ## mrproper : Remove all built files
 mrproper: clean
-	@echo "mrproper cleaning"
+	@echo "mrproper cleaning libfractal"
 	rm -f $(LIB_FILES)
 
 ## help     : Show different make options
