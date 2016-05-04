@@ -10,7 +10,7 @@
 
 #include "calculator.h"
 #include "libfractal/fractal.h"
-#include "../main.h"
+#include "main.h"
 
 int calculator(fractal_t *f)
 {
@@ -28,14 +28,14 @@ int calculator(fractal_t *f)
 
 	for ( y = 0; y < height ; y++) {
 		for( x = 0; x < width ; x++)  {
-			pthread_mutex_lock(mutex_calculator);
+			pthread_mutex_lock(&mutex_calculator);
 			value = fractal_compute_value(f, x, y);
 			sum += value;
-			pthread_mutex_unlock(mutex_calculator);
+			pthread_mutex_unlock(&mutex_calculator);
 		}
 	}
 
-	pthread_mutex_lock(mutex_calculator);
+	pthread_mutex_lock(&mutex_calculator);
 	average = sum / count;
 
 	if (print_all) { // option d active
@@ -52,6 +52,6 @@ int calculator(fractal_t *f)
 	} else {
 		fractal_free(f);
 	}
-	pthread_mutex_lock(mutex_calculator);
+	pthread_mutex_lock(&mutex_calculator);
 	return 0;
 }

@@ -14,7 +14,7 @@
 #include "fractal_buffer.h"
 #include "main.h"
 #include "reader.h"
-#include "fractal_buffer.h"
+// #include "fractal_buffer.h"
 
 //struct buffer_node_t *buffer;
 struct buffer_node_t *head = NULL;
