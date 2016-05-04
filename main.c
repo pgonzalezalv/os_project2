@@ -8,15 +8,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
-#include "fractal.h"
 #include "calculator.h"
+#include "fractal.h"
 #include "fractal_buffer.h"
 #include "main.h"
 #include "reader.h"
-// #include "fractal_buffer.h"
 
-//struct buffer_node_t *buffer;
 buffer_node_t *head = NULL;
 buffer_node_t *tail = NULL;
 int buffer_size = 0;

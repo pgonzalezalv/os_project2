@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "calculator.h"
 #include "fractal.h"
 #include "fractal_buffer.h"
 #include "main.h"

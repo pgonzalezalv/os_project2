@@ -10,7 +10,9 @@
 
 #include "calculator.h"
 #include "fractal.h"
+#include "fractal_buffer.h"
 #include "main.h"
+#include "reader.h"
 
 int calculator(fractal_t *f)
 {

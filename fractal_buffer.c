@@ -1,11 +1,18 @@
-#include <stdbool.h>
+#include <assert.h>
+#include <error.h>
+#include <getopt.h>
+#include <pthread.h>
 #include <semaphore.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
+#include "calculator.h"
 #include "fractal.h"
 #include "fractal_buffer.h"
 #include "main.h"
+#include "reader.h"
 
 
 buffer_node_t *new_queue()
