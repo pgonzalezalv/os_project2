@@ -13,6 +13,9 @@ extern int max_threads;
 extern double ave_max;
 extern fractal_t *fractal_fav;
 extern int count_files;
+extern buffer_node_t *head;
+extern buffer_node_t *tail;
+extern int buffer_size;
 
 extern pthread_mutex_t mutex_countf;
 extern pthread_mutex_t mutex_reader;

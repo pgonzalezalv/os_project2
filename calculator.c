@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 #include "calculator.h"
-#include "libfractal/fractal.h"
+#include "fractal.h"
 #include "main.h"
 
 int calculator(fractal_t *f)

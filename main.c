@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 
-#include "libfractal/fractal.h"
+#include "fractal.h"
 #include "calculator.h"
 #include "fractal_buffer.h"
 #include "main.h"
@@ -17,8 +17,8 @@
 // #include "fractal_buffer.h"
 
 //struct buffer_node_t *buffer;
-struct buffer_node_t *head = NULL;
-struct buffer_node_t *tail = NULL;
+buffer_node_t *head = NULL;
+buffer_node_t *tail = NULL;
 int buffer_size = 0;
 
 pthread_mutex_t mutex_countf;
