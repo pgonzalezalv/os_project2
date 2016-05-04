@@ -8,9 +8,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "fractal.h"
+#include "fractal_buffer.h"
+#include "main.h"
 #include "reader.h"
-#include "libfractal/fractal.h"
-#include "../main.h"
 
 int reader(char *fichier)
 {
