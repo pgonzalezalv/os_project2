@@ -16,7 +16,14 @@
 
 buffer_node_t *head = NULL;
 buffer_node_t *tail = NULL;
+fractal_t *fractal_fav = NULL;
+
 int buffer_size = 0;
+int max_threads = 1;
+bool print_all = false;
+double ave_max = 0;
+
+int count_files = 0;
 
 pthread_mutex_t mutex_countf;
 pthread_mutex_t mutex_reader;
@@ -31,7 +38,6 @@ int main(int argc, char *argv[])
  	void *readerOut;
 	// threads in MAIN
 	pthread_t pthread_reader[argc-2]; //max argc-2 fichier a lire
-	int count_files = 0; // nombre de fichiers ouverts
 	pthread_mutex_init(&mutex_countf,NULL); // pour dans le main
 
 	// threads in READER
@@ -39,8 +45,7 @@ int main(int argc, char *argv[])
 	sem_init(&empty,0,max_threads);
 
 	//threads in CALCULATOR
-	double ave_max = 0;
-	fractal_t *fractal_fav = NULL;
+
 	pthread_mutex_init(&mutex_calculator,NULL);
 	sem_init(&full,0,0);
 
@@ -84,8 +89,6 @@ void get_options(int argc, char *argv[])
 {
 	int c = 0;
     int digit_optind = 0;
-	int max_threads = 1;
-	bool print_all = false;
 
     while (true) {
         int this_option_optind = optind ? optind : 1;
