@@ -3,12 +3,13 @@ BIN=main
 
 # Compiler cmd, optimisations options and linkers
 CC=gcc
-CFLAGS=-g -Wall -W -I/usr/include/SDL -Ilibfractal
+CFLAGS=-g -Wall -W
 LDFLAGS=-lpthread -lSDL
 
 #
 SRC=$(wildcard *.c)
 OBJ=$(SRC:.c=.o)
+HEADER=$(SRC:.c=.h)
 
 # Test using CUnit installed locally
 TEST_EXE=$(CC) -I$(HOME)/local/include
@@ -17,16 +18,16 @@ TEST_SRC=test/*.c
 # Fractal library archive
 LIB_FILES=$(wildcard libfractal/*.a)
 
-all: main
-
-## main         : Generate fractal - TODO
-main: $(LIB_FILES) $(OBJ)
-	@echo "building $@"
-	$(CC) -o $@ -c $< $(LIB_FILES) $(CFLAGS) $(LDFLAGS)
+all: lib main
 
 # Building *.o
-%.o: %.c
-	$(CC) -o $@ -c $< $(CFLAGS)
+%.o: %.c $(HEADER)
+	@echo "this is it $^"
+	$(CC) $(LDFLAGS) -c $< $(CFLAGS) -Ilibfractal
+## main         : Generate fractal - TODO
+main: $(OBJ)
+	@echo "building $@"
+	$(CC) -o $@ $^ libfractal/libfractal.a $(LDFLAGS) $(CFLAGS)
 
 ## lib          : Compile libfractal - code DONE, linker -lSDL DONE
 lib:
