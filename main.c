@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 	sem_init(&empty,0,max_threads);
 
 	//threads in CALCULATOR
-	double ave_max = DBL_MIN_EXP;
+	double ave_max = 0;
 	fractal_t *fractal_fav = NULL;
 	pthread_mutex_init(&mutex_calculator,NULL);
 	sem_init(&full,0,0);
