@@ -10,7 +10,7 @@ extern bool print_all;
 // The number of calculations threads allowed by the command-line argument
 extern int max_threads;
 // The best average
-extern double ave_max;
+extern double best_average;
 // The fractal with the best average
 extern fractal_t *fractal_fav;
 // The number of opened files
@@ -29,10 +29,12 @@ extern sem_t empty;
 extern sem_t full;
 
 
-/* Checks for -d & --maxthreads n options and sets their values
- * @argc: number of input arguments argv
- * @argv: command line input arguments (includes name of executable)
+/* Checks for : -d option and set print_all to true if detected,
+ *              --maxthreads n option and set max_threads to n if detected,
+ *              number of input files and set count_inputs value accordingly.
+ * @argc: number of input arguments argv.
+ * @argv: command line input arguments (includes name of executable).
  */
-void get_options(int argc, char *argv[]);
+static void get_options_and_count_inputs(int argc, char *argv[]);
 
 #endif

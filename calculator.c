@@ -51,8 +51,8 @@ void *calculator()
 		write_bitmap_sdl(f, f->name);
 	}
 
-	if (ave_max < average) {
-		ave_max = average;
+	if (best_average < average) {
+		best_average = average;
 
 		if(fractal_fav != NULL)
 			free(fractal_fav);

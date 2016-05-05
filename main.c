@@ -22,7 +22,7 @@ fractal_t *fractal_fav = NULL;
 int buffer_size = 0;
 int max_threads = 1;
 bool print_all = false;
-double ave_max = 0;
+double best_average = 0;
 
 int count_inputs = 0;
 
@@ -50,30 +50,29 @@ int main(int argc, char *argv[])
 	pthread_mutex_init(&mutex_calculator, NULL);
 	sem_init(&full, 0, 0); // empty buffer
 
-	get_options(argc, argv);
-
-	// Creation des threads reader
-    if (optind < argc) { // file arguments
-        log_info("Reading non-option ARGV-elements.");
-        while (optind < argc)
-            log_info("reading %s.", argv[optind++]);
-			// if ((strcmp(argv[optind], "-"))) {// reading on stdin
-			// 	printf("Hello\n");
-			// }
-			//reader(argv[optind]);
-
-			pthread_mutex_unlock(&mutex_main);
-			err = pthread_create(&(pthread_reader[count_inputs]), NULL, &reader, &(argv[optind]));
-			check(err == 0, "Failed to create pthread, %d.", err)
-			// if (err != 0) {
-			// 	error(err,err,"pthread_create reader");
-			// }
-			log_info("Created thread #%d.", optind-1);
-			count_inputs++;
-			pthread_mutex_unlock(&mutex_main);
-
-        printf("\n");
-    }
+	get_options_and_count_inputs(argc, argv);
+	// // Creation des threads reader
+    // if (optind < argc) { // file arguments
+    //     log_info("Reading non-option ARGV-elements.");
+    //     while (optind < argc)
+    //         log_info("reading %s.", argv[optind++]);
+	// 		// if ((strcmp(argv[optind], "-"))) {// reading on stdin
+	// 		// 	printf("Hello\n");
+	// 		// }
+	// 		//reader(argv[optind]);
+	//
+	// 		pthread_mutex_unlock(&mutex_main);
+	// 		err = pthread_create(&(pthread_reader[count_inputs]), NULL, &reader, &(argv[optind]));
+	// 		check(err == 0, "Failed to create pthread, %d.", err)
+	// 		// if (err != 0) {
+	// 		// 	error(err,err,"pthread_create reader");
+	// 		// }
+	// 		log_info("Created thread #%d.", optind-1);
+	// 		count_inputs++;
+	// 		pthread_mutex_unlock(&mutex_main);
+	//
+    //     printf("\n");
+    // }
 	//
 	// int n = 0;
 	// err=0;
@@ -94,53 +93,23 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 }
 
-void get_options(int argc, char *argv[])
+static void get_options_and_count_inputs(int argc, char *argv[])
 {
-	int c = 0;
-    int digit_optind = 0;
+	int i = 0;
 
-    while (true) {
-        int this_option_optind = optind ? optind : 1;
-        int option_index = 0;
-        static struct option long_options[] = {
-            {"maxthreads",     required_argument, 0,  0 },
-            {0,         0,                 0,  0 }
-        };
-
-        c = getopt_long(argc, argv, "d",
-        				long_options, &option_index);
-        if (c == -1)
-            break; // no options, get out of while
-
-        switch (c) {
-            case 0: // --maxthread n option
-                printf("option %s", long_options[option_index].name);
-                if (optarg)
-                    printf(" with arg %s", optarg);
-					max_threads = atoi(optarg);
-                printf("\n");
+	for (i = 1; i < argc - 1; i++) {
+		if ( strcmp(argv[i], "-d") == 0) {
+			print_all = true;
+			log_info("-d option used.");
+		} else if ( strcmp(argv[i], "--maxthreads") == 0) {
+			i++;
+            if (i == argc)
                 break;
-
-            case '0':
-            case '1':
-            case '2':
-                if (digit_optind != 0 && digit_optind != this_option_optind)
-                    printf("digits occur in two different argv-elements.\n");
-                digit_optind = this_option_optind;
-                printf("option %c\n", c);
-                break;
-
-            case 'd': // -d option
-                printf("option d\n");
-				print_all = true;
-
-            break;
-
-            case '?':
-                break;
-
-            default:
-                printf("?? getopt returned character code 0%o ??\n", c);
-        }
-    }
+			max_threads = atoi(argv[i]);
+			log_info("--maxthreads option used, n = %d.", max_threads);
+		} else {
+			count_inputs++;
+		}
+	}
+	log_info("There are %d inputs.", count_inputs);
 }
