@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 		// 	n++;
 		// 	pthread_mutex_unlock(&mutex_main);
 		// }
-		
+
 	 	err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
 	 	if (err != 0) {
 	 		error(err,err,"pthread_create calculator");
@@ -118,12 +118,6 @@ int main(int argc, char *argv[])
 	 	n++;
 	 	pthread_mutex_unlock(&mutex_main);
 	 }
-
-<<<<<<< HEAD
-
-=======
-	 if
->>>>>>> 160ee2cd681dd801d99ecf861e93187945cab221
 
 	return 0;
 
