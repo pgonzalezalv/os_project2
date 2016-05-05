@@ -91,6 +91,7 @@ int main(int argc, char *argv[])
 	// 		// }
 	// 		log_info("Created thread #%d.", optind-1);
 	// 		count_inputs++;
+		
 	 	err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
 	 	if (err != 0) {
 	 		error(err,err,"pthread_create calculator");
