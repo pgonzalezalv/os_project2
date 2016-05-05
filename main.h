@@ -14,7 +14,7 @@ extern double ave_max;
 // The fractal with the best average
 extern fractal_t *fractal_fav;
 // The number of opened files
-extern int count_files;
+extern int count_inputs;
 // The buffer size
 extern int buffer_size;
 // The head of the buffer

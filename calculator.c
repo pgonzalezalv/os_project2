@@ -63,7 +63,7 @@ void *calculator()
 	}
 	pthread_mutex_unlock(&mutex_calculator);
 	}
-	else if (count_files == 0) { // si le buffer est vide et pas d'autre fichier ne reste à être lu
+	else if (count_inputs == 0) { // si le buffer est vide et pas d'autre fichier ne reste à être lu
 		pthread_exit(NULL);
 	}
 	calculator();

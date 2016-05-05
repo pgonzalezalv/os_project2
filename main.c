@@ -24,7 +24,7 @@ int max_threads = 1;
 bool print_all = false;
 double ave_max = 0;
 
-int count_files = 0;
+int count_inputs = 0;
 
 pthread_mutex_t mutex_main;
 pthread_mutex_t mutex_reader;
@@ -65,11 +65,11 @@ int main(int argc, char *argv[])
 			//reader(argv[optind]);
 
 			pthread_mutex_unlock(&mutex_main);
-			err = pthread_create(&(pthread_reader[count_files]), NULL, &reader, &(argv[optind]));
+			err = pthread_create(&(pthread_reader[count_inputs]), NULL, &reader, &(argv[optind]));
 			if (err != 0) {
 				error(err,err,"pthread_create reader");
 			}
-			count_files++;
+			count_inputs++;
 			pthread_mutex_unlock(&mutex_main);
 
         printf("\n");
