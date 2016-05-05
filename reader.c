@@ -24,14 +24,15 @@ void *reader(void *param)
 	fractal_t *new_fract = NULL;
 	FILE *input = NULL;
 	const char* file_name = (char *) param;
-	char line[SIZE_MAX] = "";
 
+	char line[SIZE_MAX] = "";
 	if (strcmp(file_name, "stdin") == 0) {
 		log_info("Reading on standard input.");
 		input = stdin;
 	} else {
 		log_info("Reading param.");
 		input = fopen(param, "r");
+		log_info("Succesfully opened file.");
 	}
 	// il faut un sem_post
 	check(input, "Failed to open %s.", file_name);

@@ -3,7 +3,7 @@ BIN=main
 
 # Compiler cmd, optimisations options and linkers
 CC=gcc
-CFLAGS=-g -Wall -W
+CFLAGS=-g -Wall -W -DNDEBUG
 LDFLAGS=-lpthread -lSDL
 
 #
