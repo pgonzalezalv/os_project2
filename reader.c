@@ -23,20 +23,19 @@ void *reader(void *param)
 
 	fractal_t *new_fract = NULL;
 	FILE *input = NULL;
-	const char* file_name = (char *) param;
-
+	const char *file_name = (char *) param;
+	log_info("%s", file_name);
 	char line[SIZE_MAX] = "";
 	if (strcmp(file_name, "stdin") == 0) {
-		log_info("Reading on standard input.");
+		log_info("Reading on standard input. %s", param);
 		input = stdin;
 	} else {
-		log_info("Reading param.");
-		input = fopen(param, "r");
-		log_info("Succesfully opened file.");
+		log_info("Reading file %s.", file_name);
+		input = fopen(file_name, "r");
 	}
-	// il faut un sem_post
 	check(input, "Failed to open %s.", file_name);
 	if (input != NULL) { // input succesfully opened
+		log_info("Succesfully opened file.");
 		char n[65] = {0};
 		int w = 0;
 		int h = 0;
@@ -49,7 +48,7 @@ void *reader(void *param)
 			if (sscanf(line, "%s %d %d %lf %lf", n, &w, &h, &a, &b) == 5
 			&& line[0] != '#') {
 				new_fract = fractal_new(n, w, h, a, b);
-				check(new_fract, "Failed to mallocate %s", n);
+				check(new_fract, "Failed to mallocate %s.", n);
 
 				sem_wait(&empty);
 				pthread_mutex_lock(&mutex_reader);
@@ -73,6 +72,7 @@ void *reader(void *param)
 			}
 		}
 		fclose(input);
+		log_info("Succesfully closed file.");
 
 		pthread_mutex_lock(&mutex_reader);
 		count_inputs--;

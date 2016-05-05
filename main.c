@@ -39,68 +39,59 @@ int main(int argc, char *argv[])
 
 	// threads in MAIN
 	pthread_t pthread_reader[argc-2]; //max argc-2 fichier a lire
-	pthread_t pthread_calculator[max_threads-1];
-	pthread_mutex_init(&mutex_main,NULL); // pour dans le main
+	pthread_t pthread_calculator[max_threads];
+	pthread_mutex_init(&mutex_main, NULL); // pour dans le main
 
 	// threads in READER
-	pthread_mutex_init(&mutex_reader,NULL); // pour dans la fonction reader
-	sem_init(&empty,0,max_threads);
+	pthread_mutex_init(&mutex_reader, NULL); // pour dans la fonction reader
+	sem_init(&empty, 0, max_threads); // empty buffer
 
 	//threads in CALCULATOR
-
-	pthread_mutex_init(&mutex_calculator,NULL);
-	sem_init(&full,0,0);
+	pthread_mutex_init(&mutex_calculator, NULL);
+	sem_init(&full, 0, 0); // empty buffer
 
 	get_options(argc, argv);
 
 	// Creation des threads reader
     if (optind < argc) { // file arguments
-        printf("non-option ARGV-elements: ");
+        log_info("Reading non-option ARGV-elements.");
         while (optind < argc)
-            printf("reading %s\n", argv[optind++]);
+            log_info("reading %s.", argv[optind++]);
 			// if ((strcmp(argv[optind], "-"))) {// reading on stdin
 			// 	printf("Hello\n");
 			// }
-			printf("%d\n", optind);
 			//reader(argv[optind]);
 
 			pthread_mutex_unlock(&mutex_main);
 			err = pthread_create(&(pthread_reader[count_inputs]), NULL, &reader, &(argv[optind]));
-			if (err != 0) {
-				error(err,err,"pthread_create reader");
-			}
+			check(err == 0, "Failed to create pthread, %d.", err)
+			// if (err != 0) {
+			// 	error(err,err,"pthread_create reader");
+			// }
+			log_info("Created thread #%d.", optind-1);
 			count_inputs++;
 			pthread_mutex_unlock(&mutex_main);
 
         printf("\n");
     }
-
-	int n = 0;
-	err=0;
-	while(n<max_threads)
-	{
-		pthread_mutex_lock(&mutex_main);
-		err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
-		if (err != 0) {
-			error(err,err,"pthread_create calculator");
-		}
-		n++;
-		pthread_mutex_unlock(&mutex_main);
-	}
-
-	// printf("Reading : %s\n", argv[1]);
-	// test = reader(argv[1]);
-
-
-	// il faut un sémaphore pour multi-threader la fonction reader
-	// sem_t sem;
-	// sem_init(&sem, 0, max_threads);
-
-	/* TO DO */
-
-	// sem_destroy(&sem);
+	//
+	// int n = 0;
+	// err=0;
+	// while(n<max_threads)
+	// {
+	// 	pthread_mutex_lock(&mutex_main);
+	// 	err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
+	// 	if (err != 0) {
+	// 		error(err,err,"pthread_create calculator");
+	// 	}
+	// 	n++;
+	// 	pthread_mutex_unlock(&mutex_main);
+	// }
 
 	return 0;
+
+	error:
+		exit(EXIT_FAILURE);
 }
 
 void get_options(int argc, char *argv[])
