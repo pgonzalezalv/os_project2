@@ -10,7 +10,7 @@
 
 #include "calculator.h"
 #include "dbg.h"
-#include "fractal.h"
+#include "libfractal/fractal.h"
 #include "fractal_buffer.h"
 #include "main.h"
 #include "reader.h"
@@ -34,9 +34,9 @@ sem_t full;
 
 int main(int argc, char *argv[])
 {
-	const char *fileOut = argv[argc-1]; // output file's name
+	const char *fileOut = argv[argc]; // output file's name
 	int err = 0;
-
+	int i;
 	// threads in MAIN
 	pthread_t pthread_reader[argc-2]; //max argc-2 fichier a lire
 	pthread_t pthread_calculator[max_threads];
@@ -50,8 +50,35 @@ int main(int argc, char *argv[])
 	pthread_mutex_init(&mutex_calculator, NULL);
 	sem_init(&full, 0, 0); // empty buffer
 
-	get_options_and_count_inputs(argc, argv);
+	//get_options_and_count_inputs(argc, argv);
+
 	// // Creation des threads reader
+
+	for (i = 1; i < argc - 1; i++) {
+		if ( strcmp(argv[i], "-d") == 0) {
+			print_all = true;
+			log_info("-d option used.");
+		} else if ( strcmp(argv[i], "--maxthreads") == 0) {
+			i++;
+            if (i == argc)
+                break;
+			max_threads = atoi(argv[i]);
+			log_info("--maxthreads option used, n = %d.", max_threads);
+		} else {
+			pthread_mutex_unlock(&mutex_main);
+			err = pthread_create(&(pthread_reader[count_inputs]), NULL, &reader, &(argv[i]));
+	 		check(err == 0, "Failed to create pthread, %d.", err);
+			// if (err != 0) {
+	 		// 	error(err,err,"pthread_create reader");
+	 		// }
+	 		count_inputs++;
+	 		pthread_mutex_unlock(&mutex_main);
+		}
+	}
+	log_info("There are %d inputs.", count_inputs);
+	if (count_inputs == 0)
+		return 0; //no files to open
+
     // if (optind < argc) { // file arguments
     //     log_info("Reading non-option ARGV-elements.");
     //     while (optind < argc)
@@ -60,32 +87,24 @@ int main(int argc, char *argv[])
 	// 		// 	printf("Hello\n");
 	// 		// }
 	// 		//reader(argv[optind]);
-	//
+
 	// 		pthread_mutex_unlock(&mutex_main);
-	// 		err = pthread_create(&(pthread_reader[count_inputs]), NULL, &reader, &(argv[optind]));
+	//		err = pthread_create(&(pthread_reader[count_inputs]), NULL, &reader, &(argv[optind]));
 	// 		check(err == 0, "Failed to create pthread, %d.", err)
-	// 		// if (err != 0) {
+	//		// if (err != 0) {
 	// 		// 	error(err,err,"pthread_create reader");
 	// 		// }
 	// 		log_info("Created thread #%d.", optind-1);
 	// 		count_inputs++;
-	// 		pthread_mutex_unlock(&mutex_main);
-	//
-    //     printf("\n");
-    // }
-	//
-	// int n = 0;
-	// err=0;
-	// while(n<max_threads)
-	// {
-	// 	pthread_mutex_lock(&mutex_main);
-	// 	err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
-	// 	if (err != 0) {
-	// 		error(err,err,"pthread_create calculator");
-	// 	}
-	// 	n++;
-	// 	pthread_mutex_unlock(&mutex_main);
-	// }
+	 	err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
+	 	if (err != 0) {
+	 		error(err,err,"pthread_create calculator");
+	 	}
+	 	n++;
+	 	pthread_mutex_unlock(&mutex_main);
+	 }
+
+	 if 
 
 	return 0;
 
@@ -93,7 +112,7 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 }
 
-static void get_options_and_count_inputs(int argc, char *argv[])
+/*static void get_options_and_count_inputs(int argc, char *argv[])
 {
 	int i = 0;
 
@@ -112,4 +131,4 @@ static void get_options_and_count_inputs(int argc, char *argv[])
 		}
 	}
 	log_info("There are %d inputs.", count_inputs);
-}
+}*/
