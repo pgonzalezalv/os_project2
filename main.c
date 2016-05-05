@@ -33,7 +33,7 @@ sem_t full;
 
 int main(int argc, char *argv[])
 {
-
+	const char *fileOut = argv[argc-1]; // output file's name
 	int err = 0;
  	void *readerOut;
 	// threads in MAIN
@@ -54,9 +54,12 @@ int main(int argc, char *argv[])
     if (optind < argc) { // file arguments
         printf("non-option ARGV-elements: ");
         while (optind < argc)
-            printf("reading %s ", argv[optind++]);
-			//reader(argv[optind]);
-
+            printf("reading %s\n", argv[optind++]);
+			// if ((strcmp(argv[optind], "-"))) {// reading on stdin
+			// 	printf("Hello\n");
+			// }
+			printf("%d\n", optind);
+			// reader(argv[optind]);
 			err = pthread_create(&(pthread_reader[count_files]), NULL, &readerOut, &(argv[optind]));
 			if (err != 0) {
 				error(err,err,"pthread_create");

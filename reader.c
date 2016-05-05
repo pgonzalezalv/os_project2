@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 #include "calculator.h"
@@ -18,10 +19,15 @@ int reader(char *fichier)
 {
 	printf("begin reader\n");
 	FILE *file = NULL;
+	const char* fileName = (char *) fichier;
 
-	printf("Open file\n");
-	file = fopen(fichier, "r");
-
+	if (strcmp(fileName, "stdin") == 0) {
+		printf("Reading on standard input\n");
+		file = stdin;
+	} else {
+		printf("Open file\n");
+		file = fopen(fichier, "r");
+	}
 	// il faut un sem_post
 	if (file != NULL) { // file succesfully opened
 		fractal_t *new_fract = NULL;
