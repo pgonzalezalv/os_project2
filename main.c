@@ -36,7 +36,8 @@ int main(int argc, char *argv[])
 {
 	const char *fileOut = argv[argc]; // output file's name
 	int err = 0;
-	int i;
+	int i = 0;
+	int n = 0;
 	// threads in MAIN
 	pthread_t pthread_reader[argc-2]; //max argc-2 fichier a lire
 	pthread_t pthread_calculator[max_threads];
@@ -98,7 +99,7 @@ int main(int argc, char *argv[])
 	 	pthread_mutex_unlock(&mutex_main);
 	 }
 
-	 if
+
 
 	return 0;
 
