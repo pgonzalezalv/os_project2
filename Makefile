@@ -42,6 +42,8 @@ clean: clean_lib
 	@echo "cleaning"
 	rm -f *.o
 
+launch:
+	./main -d --maxthreads 2 fract_inputs/*.txt fileOut
 ## mrproper_lib : Remove all built files in libfractal
 mrproper_lib:
 	(cd libfractal; make mrproper)
@@ -50,7 +52,6 @@ mrproper_lib:
 mrproper: clean mrproper_lib
 	@echo "mrproper cleaning"
 	rm -f main
-
 ## help         : Show different make options
 help: Makefile
 	@sed -n 's/^##//p' $<
