@@ -50,20 +50,14 @@ int main(int argc, char *argv[])
 	pthread_mutex_init(&mutex_calculator, NULL);
 	sem_init(&full, 0, 0); // empty buffer
 
-	//get_options_and_count_inputs(argc, argv);
+	get_options_and_count_inputs(argc, argv);
 
 	// // Creation des threads reader
 
 	for (i = 1; i < argc - 1; i++) {
 		if ( strcmp(argv[i], "-d") == 0) {
-			print_all = true;
-			log_info("-d option used.");
 		} else if ( strcmp(argv[i], "--maxthreads") == 0) {
 			i++;
-            if (i == argc)
-                break;
-			max_threads = atoi(argv[i]);
-			log_info("--maxthreads option used, n = %d.", max_threads);
 		} else {
 			pthread_mutex_unlock(&mutex_main);
 			err = pthread_create(&(pthread_reader[count_inputs]), NULL, &reader, &(argv[i]));
@@ -104,7 +98,7 @@ int main(int argc, char *argv[])
 	 	pthread_mutex_unlock(&mutex_main);
 	 }
 
-	 if 
+	 if
 
 	return 0;
 
@@ -112,7 +106,7 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 }
 
-/*static void get_options_and_count_inputs(int argc, char *argv[])
+static void get_options_and_count_inputs(int argc, char *argv[])
 {
 	int i = 0;
 
@@ -131,4 +125,4 @@ int main(int argc, char *argv[])
 		}
 	}
 	log_info("There are %d inputs.", count_inputs);
-}*/
+}
