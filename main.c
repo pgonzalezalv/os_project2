@@ -74,23 +74,42 @@ int main(int argc, char *argv[])
 	if (count_inputs == 0)
 		return 0; //no files to open
 
-    // if (optind < argc) { // file arguments
-    //     log_info("Reading non-option ARGV-elements.");
-    //     while (optind < argc)
-    //         log_info("reading %s.", argv[optind++]);
-	// 		// if ((strcmp(argv[optind], "-"))) {// reading on stdin
-	// 		// 	printf("Hello\n");
-	// 		// }
-	// 		//reader(argv[optind]);
 
-	// 		pthread_mutex_unlock(&mutex_main);
-	//		err = pthread_create(&(pthread_reader[count_inputs]), NULL, &reader, &(argv[optind]));
-	// 		check(err == 0, "Failed to create pthread, %d.", err)
-	//		// if (err != 0) {
-	// 		// 	error(err,err,"pthread_create reader");
-	// 		// }
-	// 		log_info("Created thread #%d.", optind-1);
-	// 		count_inputs++;
+		// // Creation des threads reader
+		  // if (optind < argc) { // file arguments
+		  //     log_info("Reading non-option ARGV-elements.");
+		  //     while (optind < argc)
+		  //         log_info("reading %s.", argv[optind++]);
+		// 		// if ((strcmp(argv[optind], "-"))) {// reading on stdin
+		// 		// 	printf("Hello\n");
+		// 		// }
+		// 		//reader(argv[optind]);
+		//
+		// 		pthread_mutex_unlock(&mutex_main);
+		// 		err = pthread_create(&(pthread_reader[count_inputs]), NULL, &reader, &(argv[optind]));
+		// 		check(err == 0, "Failed to create pthread, %d.", err)
+		// 		// if (err != 0) {
+		// 		// 	error(err,err,"pthread_create reader");
+		// 		// }
+		// 		log_info("Created thread #%d.", optind-1);
+		// 		count_inputs++;
+		// 		pthread_mutex_unlock(&mutex_main);
+		//
+		  //     printf("\n");
+		  // }
+		//
+		// int n = 0;
+		// err=0;
+		// while(n<max_threads)
+		// {
+		// 	pthread_mutex_lock(&mutex_main);
+		// 	err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
+		// 	if (err != 0) {
+		// 		error(err,err,"pthread_create calculator");
+		// 	}
+		// 	n++;
+		// 	pthread_mutex_unlock(&mutex_main);
+		// }
 		
 	 	err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
 	 	if (err != 0) {
@@ -100,7 +119,11 @@ int main(int argc, char *argv[])
 	 	pthread_mutex_unlock(&mutex_main);
 	 }
 
+<<<<<<< HEAD
 
+=======
+	 if
+>>>>>>> 160ee2cd681dd801d99ecf861e93187945cab221
 
 	return 0;
 
