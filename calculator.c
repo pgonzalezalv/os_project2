@@ -9,6 +9,7 @@
 #include <unistd.h>
 
 #include "calculator.h"
+#include "dbg.h"
 #include "libfractal/fractal.h"
 #include "fractal_buffer.h"
 #include "main.h"
