@@ -6,6 +6,6 @@
  * @fract:
  * @return:
  */
-int calculator();
+void *calculator();
 
 #endif

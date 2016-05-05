@@ -25,7 +25,7 @@ double ave_max = 0;
 
 int count_files = 0;
 
-pthread_mutex_t mutex_countf;
+pthread_mutex_t mutex_main;
 pthread_mutex_t mutex_reader;
 pthread_mutex_t mutex_calculator;
 sem_t empty;
@@ -35,10 +35,11 @@ int main(int argc, char *argv[])
 {
 	const char *fileOut = argv[argc-1]; // output file's name
 	int err = 0;
- 	void *readerOut;
+
 	// threads in MAIN
 	pthread_t pthread_reader[argc-2]; //max argc-2 fichier a lire
-	pthread_mutex_init(&mutex_countf,NULL); // pour dans le main
+	pthread_t pthread_calculator[max_threads-1];
+	pthread_mutex_init(&mutex_main,NULL); // pour dans le main
 
 	// threads in READER
 	pthread_mutex_init(&mutex_reader,NULL); // pour dans la fonction reader
@@ -51,6 +52,7 @@ int main(int argc, char *argv[])
 
 	get_options(argc, argv);
 
+	// Creation des threads reader
     if (optind < argc) { // file arguments
         printf("non-option ARGV-elements: ");
         while (optind < argc)
@@ -59,19 +61,31 @@ int main(int argc, char *argv[])
 			// 	printf("Hello\n");
 			// }
 			printf("%d\n", optind);
-			// reader(argv[optind]);
-			err = pthread_create(&(pthread_reader[count_files]), NULL, &readerOut, &(argv[optind]));
+			//reader(argv[optind]);
+
+			pthread_mutex_unlock(&mutex_main);
+			err = pthread_create(&(pthread_reader[count_files]), NULL, &reader, &(argv[optind]));
 			if (err != 0) {
-				error(err,err,"pthread_create");
+				error(err,err,"pthread_create reader");
 			}
-			pthread_mutex_lock(&mutex_countf);
 			count_files++;
-			pthread_mutex_unlock(&mutex_countf);
+			pthread_mutex_unlock(&mutex_main);
 
         printf("\n");
     }
 
-	int test = 0;
+	int n = 0;
+	err=0;
+	while(n<max_threads)
+	{
+		pthread_mutex_lock(&mutex_main);
+		err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
+		if (err != 0) {
+			error(err,err,"pthread_create calculator");
+		}
+		n++;
+		pthread_mutex_unlock(&mutex_main);
+	}
 
 	// printf("Reading : %s\n", argv[1]);
 	// test = reader(argv[1]);

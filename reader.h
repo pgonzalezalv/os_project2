@@ -9,6 +9,6 @@
  *
  * commentaires : Il faut un mutex pour chaque ligne lu
  */
-int reader(char *fichier);
+void *reader(char *fichier);
 
 #endif

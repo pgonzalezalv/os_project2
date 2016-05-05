@@ -15,7 +15,7 @@
 #include "main.h"
 #include "reader.h"
 
-int reader(char *fichier)
+void *reader(char *fichier)
 {
 	printf("begin reader\n");
 	FILE *file = NULL;
@@ -37,7 +37,6 @@ int reader(char *fichier)
 		double a = 0.0;
 		double b = 0.0;
 		char line[500]; // maximal characters per line
-		int ans_line = 0;
 
 		while (fgets(line, sizeof(line),file)) {
 			//BUG : sem is not declared
@@ -51,9 +50,9 @@ int reader(char *fichier)
 				if (err != 0) {
 					fclose(file); // si il y a une erreur,s on arrete la lecture
 
-					pthread_mutex_lock(&mutex_countf);
+					pthread_mutex_lock(&mutex_reader);
 					count_files--;
-					pthread_mutex_unlock(&mutex_countf);
+					pthread_mutex_unlock(&mutex_reader);
 
 					printf("Error : push didn't worked correctly\n");
 					// error(err, "push \n"); // BUG : too few arguments to `error`
@@ -65,9 +64,9 @@ int reader(char *fichier)
 		}
 		fclose(file);
 
-		pthread_mutex_lock(&mutex_countf);
+		pthread_mutex_lock(&mutex_reader);
 		count_files--;
-		pthread_mutex_unlock(&mutex_countf);
+		pthread_mutex_unlock(&mutex_reader);
 
 	} else {
 		printf("Error: file pointer is null\n"); // del when code is finished
@@ -75,5 +74,4 @@ int reader(char *fichier)
 	}
 
 	pthread_exit(NULL);
-	return 0;
 }

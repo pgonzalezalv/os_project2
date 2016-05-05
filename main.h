@@ -28,6 +28,7 @@ extern pthread_mutex_t mutex_calculator;
 extern sem_t empty;
 extern sem_t full;
 
+
 /* Checks for -d & --maxthreads n options and sets their values
  * @argc: number of input arguments argv
  * @argv: command line input arguments (includes name of executable)
