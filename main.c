@@ -62,12 +62,12 @@ int main(int argc, char *argv[])
 		} else {
 			pthread_mutex_unlock(&mutex_main);
 			err = pthread_create(&(pthread_reader[count_inputs]), NULL, &reader, &(argv[i]));
-	 		check(err == 0, "Failed to create pthread, %d.", err);
+			check(err == 0, "Failed to create reader pthread, %d.", err);
 			// if (err != 0) {
-	 		// 	error(err,err,"pthread_create reader");
-	 		// }
-	 		count_inputs++;
-	 		pthread_mutex_unlock(&mutex_main);
+			// 	error(err,err,"pthread_create reader");
+			// }
+			count_inputs++;
+			pthread_mutex_unlock(&mutex_main);
 		}
 	}
 	log_info("There are %d inputs.", count_inputs);
@@ -75,54 +75,51 @@ int main(int argc, char *argv[])
 		return 0; //no files to open
 
 
-		// // Creation des threads reader
-		  // if (optind < argc) { // file arguments
-		  //     log_info("Reading non-option ARGV-elements.");
-		  //     while (optind < argc)
-		  //         log_info("reading %s.", argv[optind++]);
-		// 		// if ((strcmp(argv[optind], "-"))) {// reading on stdin
-		// 		// 	printf("Hello\n");
-		// 		// }
-		// 		//reader(argv[optind]);
-		//
-		// 		pthread_mutex_unlock(&mutex_main);
-		// 		err = pthread_create(&(pthread_reader[count_inputs]), NULL, &reader, &(argv[optind]));
-		// 		check(err == 0, "Failed to create pthread, %d.", err)
-		// 		// if (err != 0) {
-		// 		// 	error(err,err,"pthread_create reader");
-		// 		// }
-		// 		log_info("Created thread #%d.", optind-1);
-		// 		count_inputs++;
-		// 		pthread_mutex_unlock(&mutex_main);
-		//
-		  //     printf("\n");
-		  // }
-		//
-		// int n = 0;
-		// err=0;
-		// while(n<max_threads)
-		// {
-		// 	pthread_mutex_lock(&mutex_main);
-		// 	err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
-		// 	if (err != 0) {
-		// 		error(err,err,"pthread_create calculator");
-		// 	}
-		// 	n++;
-		// 	pthread_mutex_unlock(&mutex_main);
-		// }
+	// // Creation des threads reader
+	// if (optind < argc) { // file arguments
+	//     log_info("Reading non-option ARGV-elements.");
+	//     while (optind < argc)
+	//         log_info("reading %s.", argv[optind++]);
+	// 		// if ((strcmp(argv[optind], "-"))) {// reading on stdin
+	// 		// 	printf("Hello\n");
+	// 		// }
+	// 		//reader(argv[optind]);
+	//
+	// 		pthread_mutex_unlock(&mutex_main);
+	// 		err = pthread_create(&(pthread_reader[count_inputs]), NULL, &reader, &(argv[optind]));
+	// 		check(err == 0, "Failed to create pthread, %d.", err)
+	// 		// if (err != 0) {
+	// 		// 	error(err,err,"pthread_create reader");
+	// 		// }
+	// 		log_info("Created thread #%d.", optind-1);
+	// 		count_inputs++;
+	// 		pthread_mutex_unlock(&mutex_main);
+	//
+	//     printf("\n");
+	// }
+	//
+	// int n = 0;
+	// err=0;
+	// while(n<max_threads)
+	// {
+	// 	pthread_mutex_lock(&mutex_main);
+	// 	err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
+	// 	if (err != 0) {
+	// 		error(err,err,"pthread_create calculator");
+	// 	}
+	// 	n++;
+	// 	pthread_mutex_unlock(&mutex_main);
+	// }
 
-	 	err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
-	 	if (err != 0) {
-	 		error(err,err,"pthread_create calculator");
-	 	}
-	 	n++;
-	 	pthread_mutex_unlock(&mutex_main);
-	 }
+	err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
+	check(err == 0, "Failed to create calculator pthread, %d.", err);
+	n++;
+	pthread_mutex_unlock(&mutex_main);
 
 	return 0;
 
 	error:
-		exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 
 static void get_options_and_count_inputs(int argc, char *argv[])
@@ -135,8 +132,8 @@ static void get_options_and_count_inputs(int argc, char *argv[])
 			log_info("-d option used.");
 		} else if ( strcmp(argv[i], "--maxthreads") == 0) {
 			i++;
-            if (i == argc)
-                break;
+			if (i == argc)
+			break;
 			max_threads = atoi(argv[i]);
 			log_info("--maxthreads option used, n = %d.", max_threads);
 		} else {

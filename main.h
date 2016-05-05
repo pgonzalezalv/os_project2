@@ -35,6 +35,6 @@ extern sem_t full;
  * @argc: number of input arguments argv.
  * @argv: command line input arguments (includes name of executable).
  */
-//static void get_options_and_count_inputs(int argc, char *argv[]);
+static void get_options_and_count_inputs(int argc, char *argv[]);
 
 #endif
