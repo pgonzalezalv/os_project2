@@ -12,8 +12,9 @@ OBJ=$(SRC:.c=.o)
 HEADER=$(SRC:.c=.h)
 
 # Test using CUnit installed locally
-TEST_EXE=$(CC) -I$(HOME)/local/include
+TEST_LDFLAGS=-lcunit
 TEST_SRC=test/*.c
+TEST_OBJ=$(TEST_SRC:.c=.o)
 
 # Fractal library archive
 LIB_FILES=$(wildcard libfractal/*.a)
@@ -24,6 +25,12 @@ all: lib main
 %.o: %.c $(HEADER)
 	@echo "this is it $^"
 	$(CC) $(LDFLAGS) -c $< $(CFLAGS) -Ilibfractal
+
+# Building tests
+libfractal_test.o: test/libfractal_test.c
+	@echo "Building test object"
+	$(CC) $^ -c -c $@ -lcunit
+
 ## main         : Generate fractal - TODO
 main: $(OBJ)
 	@echo "building $@"
@@ -33,6 +40,10 @@ main: $(OBJ)
 lib:
 	(cd libfractal; make)
 ## test         : Compile and execute tests - TODO : multiple tests
+test: lib $(TEST_OBJ) libfractal/fractal.o
+	@echo "Creating tests"
+	@echo "Linking objects"
+	$(CC) -o $@ libfractal_test.o libfractal/fractal.o -lcunit
 
 ## clean_lib    : Remove auto-generated files
 clean_lib:
