@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
 
 	buffer = new_queue();
 
-	print_buffer();
+	// print_buffer();
 
 	reader_threads = (pthread_t *) malloc(count_files * sizeof(pthread_t));
 	calculator_threads = (pthread_t *) malloc(count_files * sizeof(pthread_t));
