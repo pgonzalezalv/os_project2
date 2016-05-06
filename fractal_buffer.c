@@ -15,7 +15,6 @@
 #include "main.h"
 #include "reader.h"
 
-
 buffer_node_t *new_queue()
 {
     buffer_node_t *fractal_buffer = NULL;
@@ -72,7 +71,7 @@ fractal_t *dequeue()
 	buffer_size--;
 
     log_info("Bye");
-    
+
 	return fract;
 }
 

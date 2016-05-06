@@ -113,13 +113,14 @@ int main(int argc, char *argv[])
 			fractal_free(tmp);
 		}
 	}
-	return 0;
 
 	log_info("EXIT OF RETURN.");
 
-	check(!write_bitmap_sdl(best, fileOut),
-			"Error while writing best fractal");
+	err = write_bitmap_sdl(best, fileOut); // best vaut null
 
+	check(!err, "Error while writing best fractal");
+
+	return err;
 	error:
 		exit(EXIT_FAILURE);
 }
