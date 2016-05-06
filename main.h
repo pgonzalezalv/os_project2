@@ -14,7 +14,7 @@ extern double best_average;
 // The fractal with the best average
 extern fractal_t *fractal_fav;
 // The number of opened files
-extern int count_inputs;
+extern int is_reading;
 // The number of reader threads
 extern int reader_threads;
 // The buffer size
@@ -25,7 +25,7 @@ extern buffer_node_t *head;
 extern buffer_node_t *tail;
 
 extern pthread_mutex_t mutex_countf;
-extern pthread_mutex_t mutex_reader;
+extern pthread_mutex_t mutex_buffer;
 extern pthread_mutex_t mutex_calculator;
 extern sem_t empty;
 extern sem_t full;
@@ -34,10 +34,10 @@ extern sem_t full;
 /**
  * Checks for : -d option and set print_all to true if detected,
  *              --maxthreads n option and set max_threads to n if detected,
- *              number of input files and set count_inputs value accordingly.
+ *              number of input files and set is_reading value accordingly.
  * @argc: number of input arguments argv.
  * @argv: command line input arguments (includes name of executable).
  */
-static void get_options_and_count_inputs(int argc, char *argv[]);
+static void get_options_and_is_reading(int argc, char *argv[]);
 
 #endif

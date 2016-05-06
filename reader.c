@@ -47,26 +47,22 @@ void *reader(void *param)
 				new_fract = fractal_new(n, w, h, a, b);
 				// print_fractal(new_fract);
 				check(new_fract, "Failed to mallocate %s.", n);
-				sem_wait(&empty);
-				pthread_mutex_lock(&mutex_reader);
+
 				check(!enqueue(new_fract), "erreur avec enqueue/");
-				pthread_mutex_unlock(&mutex_reader);
-				sem_post(&full);
 			}
 		}
-		fclose(input);
+		check(fclose(input) != 0, "", (char *) param);
 		log_info("Succesfully closed file.");
 		print_buffer();
-		pthread_mutex_lock(&mutex_reader);
-		count_inputs--;
-		pthread_mutex_unlock(&mutex_reader);
+
+		is_reading--;
 
 		log_info("Reader ends for an input");
 	} else {
 		exit(EXIT_FAILURE);
 	}
 
-	pthread_exit(NULL);
+	return NULL;
 
 	error:
     	if(err) fclose(input);
