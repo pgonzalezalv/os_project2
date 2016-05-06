@@ -9,27 +9,30 @@
 extern bool print_all;
 // The number of calculations threads allowed by the command-line argument
 extern int max_threads;
-// The best average
-extern double best_average;
+// The number of files
+extern int count_files;
 // The fractal with the best average
-extern fractal_t *fractal_fav;
-// The number of opened files
-extern int is_reading;
-// The number of reader threads
-extern int reader_threads;
-// The buffer size
 extern int buffer_size;
 // The head of the buffer
 extern buffer_node_t *head;
 // The tail of the buffer
 extern buffer_node_t *tail;
+// The number of opened files;
+extern int is_reading;
+// The best average
+extern double best_average;
+// The best fractal
+extern fractal_t *best;
 
-extern pthread_mutex_t mutex_countf;
+
 extern pthread_mutex_t mutex_buffer;
-extern pthread_mutex_t mutex_calculator;
+extern pthread_mutex_t mutex_closing;
+extern pthread_mutex_t mutex_best;
 extern sem_t empty;
 extern sem_t full;
 
+extern pthread_t *read_threads;
+extern pthread_t *compute_threads;
 
 /**
  * Checks for : -d option and set print_all to true if detected,
