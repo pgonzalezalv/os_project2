@@ -45,7 +45,22 @@ int main(int argc, char *argv[])
 	const char *files[argc];
 	const char *fileOut = argv[argc-1]; // output file's name
 
-	get_options_and_is_reading(argc, argv);
+	int i = 0;
+
+	for (i = 1; i < argc - 1; i++) {
+		if ( strcmp(argv[i], ARGOPT_D) == 0) {
+			print_all = true;
+		} else if ( strcmp(argv[i], ARGOPT_MAXTHREADS) == 0) {
+			i++;
+			if (i == argc)
+				break;
+			max_threads = atoi(argv[i]);
+		} else {
+			files[count_files] = argv[i];
+			count_files++;
+		}
+	}
+
 	log_info("-d option used?");
 	if (print_all) log_info("Yes.");
 	else log_info("No.");
@@ -55,11 +70,10 @@ int main(int argc, char *argv[])
 
 	int arg[max_threads];
 	int err = 0;
-	int i = 0;
 
-	for (i = 0; i < count_files; i++) printf
-	("Fichier de donnee n° %i : %s\n", i+1, files[i]);
-
+	for (i = 0; i < count_files; i++)  {
+		printf("File %d : %s.\n", i+1, files[i]);
+	}
 
 	// Initializing semaphores & mutex
 	pthread_mutex_init(&mutex_buffer, NULL);
@@ -112,18 +126,5 @@ int main(int argc, char *argv[])
 
 static void get_options_and_is_reading(int argc, char *argv[])
 {
-	int i = 0;
 
-	for (i = 1; i < argc - 1; i++) {
-		if ( strcmp(argv[i], ARGOPT_D) == 0) {
-			print_all = true;
-		} else if ( strcmp(argv[i], ARGOPT_MAXTHREADS) == 0) {
-			i++;
-			if (i == argc)
-				break;
-			max_threads = atoi(argv[i]);
-		} else {
-			count_files++;
-		}
-	}
 }

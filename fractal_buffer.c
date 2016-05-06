@@ -29,8 +29,6 @@ int enqueue(fractal_t *new_fract)
 	new = malloc(sizeof(*new));
 
     check_mem(new);
-	// if (new == NULL) // malloc test
-	// 	return -1;
 
 	new->fract = new_fract;
 	new->next = head;
@@ -43,6 +41,8 @@ int enqueue(fractal_t *new_fract)
 		head = new;
 	}
 	buffer_size++;
+
+    log_info("Hello");
 
 	return 0;
 
@@ -57,6 +57,7 @@ fractal_t *dequeue()
 		return NULL;
 	}
 
+
 	if (tail == head) // buffer has 1 element
 		head = NULL;
 
@@ -70,6 +71,8 @@ fractal_t *dequeue()
 	free(toRemove);
 	buffer_size--;
 
+    log_info("Bye");
+    
 	return fract;
 }
 
