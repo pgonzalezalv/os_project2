@@ -23,14 +23,14 @@ buffer_node_t *new_queue()
     return fractal_buffer;
 }
 
-//int enqueue(buffer_node_t **list, fractal_t *new_fract){
 int enqueue(fractal_t *new_fract)
 {
 	buffer_node_t *new;
 	new = malloc(sizeof(*new));
 
-	if (new == NULL) // malloc test
-		return -1;
+    check_mem(new);
+	// if (new == NULL) // malloc test
+	// 	return -1;
 
 	new->fract = new_fract;
 	new->next = head;
@@ -45,6 +45,9 @@ int enqueue(fractal_t *new_fract)
 	buffer_size++;
 
 	return 0;
+
+    error:
+        exit(EXIT_FAILURE);
 }
 
 fractal_t *dequeue()

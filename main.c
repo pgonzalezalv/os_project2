@@ -15,6 +15,9 @@
 #include "main.h"
 #include "reader.h"
 
+#define ARGOPT_D "-d"
+#define ARGOPT_MAXTHREADS "--maxthreads"
+
 buffer_node_t *head = NULL;
 buffer_node_t *tail = NULL;
 fractal_t *fractal_fav = NULL;
@@ -25,16 +28,27 @@ bool print_all = false;
 double best_average = 0;
 
 int count_inputs = 0;
+int reader_threads = 0;
 
 pthread_mutex_t mutex_main;
 pthread_mutex_t mutex_reader;
 pthread_mutex_t mutex_calculator;
 sem_t empty;
 sem_t full;
+pthread_mutex_t mutex_count;
+pthread_mutex_t mutex_reader;
 
 int main(int argc, char *argv[])
 {
 	const char *fileOut = argv[argc]; // output file's name
+	get_options_and_count_inputs(argc, argv);
+
+	if (argc == 1) {
+		return -1; // no arguments
+	}
+	if (count_inputs == 0)
+		return -1; //no files to open
+
 	int err = 0;
 	int i = 0;
 	int n = 0;
@@ -51,70 +65,36 @@ int main(int argc, char *argv[])
 	pthread_mutex_init(&mutex_calculator, NULL);
 	sem_init(&full, 0, 0); // empty buffer
 
-	get_options_and_count_inputs(argc, argv);
-
 	// // Creation des threads reader
 
 	for (i = 1; i < argc - 1; i++) {
-		if ( strcmp(argv[i], "-d") == 0) {
-		} else if ( strcmp(argv[i], "--maxthreads") == 0) {
+		log_info("Creating reader threads");
+		if ( strcmp(argv[i], ARGOPT_D) == 0) {
+		} else if ( strcmp(argv[i], ARGOPT_MAXTHREADS) == 0) {
 			i++;
 		} else {
-			pthread_mutex_unlock(&mutex_main);
-			err = pthread_create(&(pthread_reader[count_inputs]), NULL, &reader, &(argv[i]));
-			check(err == 0, "Failed to create reader pthread, %d.", err);
+			// sem_wait(&empty);
+			check(!pthread_create(&(pthread_reader[count_inputs]), NULL,
+					&reader, (void *) (argv[i])),
+					"Failed to create reader pthread");
 			// if (err != 0) {
 			// 	error(err,err,"pthread_create reader");
 			// }
-			count_inputs++;
-			pthread_mutex_unlock(&mutex_main);
+			pthread_mutex_lock(&mutex_reader);
+			reader_threads++;
+			pthread_mutex_unlock(&mutex_reader);
+			// sem_post(&full);
 		}
 	}
-	log_info("There are %d inputs.", count_inputs);
-	if (count_inputs == 0)
-		return 0; //no files to open
+	log_info("There are %d reader threads.", reader_threads);
 
-
-	// // Creation des threads reader
-	// if (optind < argc) { // file arguments
-	//     log_info("Reading non-option ARGV-elements.");
-	//     while (optind < argc)
-	//         log_info("reading %s.", argv[optind++]);
-	// 		// if ((strcmp(argv[optind], "-"))) {// reading on stdin
-	// 		// 	printf("Hello\n");
-	// 		// }
-	// 		//reader(argv[optind]);
-	//
-	// 		pthread_mutex_unlock(&mutex_main);
-	// 		err = pthread_create(&(pthread_reader[count_inputs]), NULL, &reader, &(argv[optind]));
-	// 		check(err == 0, "Failed to create pthread, %d.", err)
-	// 		// if (err != 0) {
-	// 		// 	error(err,err,"pthread_create reader");
-	// 		// }
-	// 		log_info("Created thread #%d.", optind-1);
-	// 		count_inputs++;
-	// 		pthread_mutex_unlock(&mutex_main);
-	//
-	//     printf("\n");
-	// }
-	//
-	// int n = 0;
-	// err=0;
-	// while(n<max_threads)
-	// {
-	// 	pthread_mutex_lock(&mutex_main);
-	// 	err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
-	// 	if (err != 0) {
-	// 		error(err,err,"pthread_create calculator");
-	// 	}
-	// 	n++;
-	// 	pthread_mutex_unlock(&mutex_main);
-	// }
-
-	err = pthread_create(&(pthread_calculator[n]), NULL, &calculator, NULL);
-	check(err == 0, "Failed to create calculator pthread, %d.", err);
-	n++;
-	pthread_mutex_unlock(&mutex_main);
+	for (size_t i = 0; i < max_threads; i++) {
+		log_info("Creating calculator threads");
+		// pthread_mutex_lock(&mutex_main);
+		check(!pthread_create(&(pthread_calculator[i]), NULL,
+				&calculator, NULL), "Failed to create calculator pthread.");
+		// pthread_mutex_unlock(&mutex_main);
+	}
 
 	return 0;
 
@@ -127,13 +107,13 @@ static void get_options_and_count_inputs(int argc, char *argv[])
 	int i = 0;
 
 	for (i = 1; i < argc - 1; i++) {
-		if ( strcmp(argv[i], "-d") == 0) {
+		if ( strcmp(argv[i], ARGOPT_D) == 0) {
 			print_all = true;
 			log_info("-d option used.");
-		} else if ( strcmp(argv[i], "--maxthreads") == 0) {
+		} else if ( strcmp(argv[i], ARGOPT_MAXTHREADS) == 0) {
 			i++;
 			if (i == argc)
-			break;
+				break;
 			max_threads = atoi(argv[i]);
 			log_info("--maxthreads option used, n = %d.", max_threads);
 		} else {

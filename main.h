@@ -15,6 +15,8 @@ extern double best_average;
 extern fractal_t *fractal_fav;
 // The number of opened files
 extern int count_inputs;
+// The number of reader threads
+extern int reader_threads;
 // The buffer size
 extern int buffer_size;
 // The head of the buffer
@@ -29,7 +31,8 @@ extern sem_t empty;
 extern sem_t full;
 
 
-/* Checks for : -d option and set print_all to true if detected,
+/**
+ * Checks for : -d option and set print_all to true if detected,
  *              --maxthreads n option and set max_threads to n if detected,
  *              number of input files and set count_inputs value accordingly.
  * @argc: number of input arguments argv.

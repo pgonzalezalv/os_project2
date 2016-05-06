@@ -18,9 +18,9 @@
 void *calculator()
 {
 	sem_wait(&full);
-	pthread_mutex_lock(&mutex_calculator);
+	pthread_mutex_lock(&mutex_reader);
 	fractal_t *f = dequeue();
-	pthread_mutex_unlock(&mutex_calculator);
+	pthread_mutex_unlock(&mutex_reader);
 	sem_post(&empty);
 
 	if(f != NULL) {
@@ -32,19 +32,19 @@ void *calculator()
 		double sum = 0;
 		int count = width * height;
 
-		int value;
-		double average;
-
-		for ( y = 0; y < height ; y++) {
-			for( x = 0; x < width ; x++)  {
-				pthread_mutex_lock(&mutex_calculator);
-				value = fractal_compute_value(f, x, y);
-				sum += value;
-				pthread_mutex_unlock(&mutex_calculator);
-			}
-		}
+		int value = 0;
+		double average = 0;
 
 		pthread_mutex_lock(&mutex_calculator);
+		log_info("Start calcul de fractales");
+		for ( y = 0; y < height ; y++) {
+			for( x = 0; x < width ; x++)  {
+				value = fractal_compute_value(f, x, y);
+				sum += value;
+			}
+			log_info("Vous etes ici");
+		}
+
 		average = sum / count;
 
 		if (print_all) { // option d active
@@ -60,10 +60,12 @@ void *calculator()
 		} else {
 			fractal_free(f);
 		}
+		log_info("Fin calcul de fractales");
 		pthread_mutex_unlock(&mutex_calculator);
 	}
 	else if (count_inputs == 0) { // si le buffer est vide et pas d'autre fichier ne reste à être lu
 		pthread_exit(NULL);
 	}
-	calculator();
+
+	return NULL;
 }
