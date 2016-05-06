@@ -17,6 +17,7 @@ typedef struct {
     int h;
     double a;
     double b;
+    double average;
 } fractal_t;
 
 /*
