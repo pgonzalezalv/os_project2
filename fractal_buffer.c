@@ -17,9 +17,14 @@
 
 buffer_node_t *new_queue()
 {
-    buffer_node_t *fractal_buffer = NULL;
+    buffer_node_t *buffer = (buffer_node_t *) malloc(buffer_size * sizeof(buffer_node_t));
 
-    return fractal_buffer;
+    check_mem(buffer);
+
+    return buffer;
+
+    error:
+        exit(EXIT_FAILURE);
 }
 
 int enqueue(fractal_t *new_fract)
@@ -81,6 +86,8 @@ void free_list(buffer_node_t **list)
 
 	while (buffer_size != 0)
 		dequeue();
+
+    log_info("Good bye");
 }
 
 void print_fractal(const fractal_t *fract)

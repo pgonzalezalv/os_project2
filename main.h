@@ -11,8 +11,10 @@ extern bool print_all;
 extern int max_threads;
 // The number of files
 extern int count_files;
-// The fractal with the best average
-extern int buffer_size;
+// The buffer size
+extern buffer_size;
+// The buffer
+extern buffer_node_t *buffer;
 // The head of the buffer
 extern buffer_node_t *head;
 // The tail of the buffer
@@ -21,7 +23,7 @@ extern buffer_node_t *tail;
 extern int is_reading;
 // The best average
 extern double best_average;
-// The best fractal
+// The fractal with the best average
 extern fractal_t *best;
 
 

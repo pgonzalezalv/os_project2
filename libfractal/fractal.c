@@ -6,13 +6,13 @@
 
 fractal_t *fractal_new(const char *name, int width, int height, double a, double b)
 {
-    fractal_t *f_new = malloc(sizeof(fractal_t));
+    fractal_t *f_new = (fractal_t *) malloc(sizeof(fractal_t *));
     check_mem(f_new);
 
     int n = 65;
     strncpy(f_new->name, name, (size_t) n);
 
-    f_new->value = (int *)malloc(height * width * sizeof(int));
+    f_new->value = (int *) malloc(height * width * sizeof(int));
     check_mem(f_new);
 
     f_new->w = width;

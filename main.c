@@ -23,6 +23,7 @@ int max_threads = 1;
 int count_files = 0;
 
 int buffer_size = 0;
+buffer_node_t *buffer = NULL;
 buffer_node_t *head = NULL;
 buffer_node_t *tail = NULL;
 
@@ -81,6 +82,14 @@ int main(int argc, char *argv[])
 	pthread_mutex_init(&mutex_best, NULL);
 	sem_init(&empty, 0, max_threads); // empty buffer
 	sem_init(&full, 0, 0); // empty buffer
+
+	// buffer & threads allocations
+
+	buffer_size = max_threads;
+
+	buffer = new_queue();
+
+	print_buffer();
 
 	reader_threads = (pthread_t *) malloc(count_files * sizeof(pthread_t));
 	calculator_threads = (pthread_t *) malloc(count_files * sizeof(pthread_t));
