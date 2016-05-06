@@ -54,6 +54,27 @@ void test_libfractal_get_b() {
 	fractal_free(ptr);
 }
 
+void test_libfractal_get_set_value() {
+	fractal_t *ptr = fractal_new(name, 10, 10, a, b);
+	int w = fractal_get_width(ptr);
+	int h = fractal_get_height(ptr);
+	int x = 0;
+	int y = 0;
+	for ( y = 0; y < h ; y++) {
+		for( x = 0; x < w ; x++)  {
+			fractal_set_value(ptr, x, y, x+y*10);
+		}
+	}
+
+	for ( y = 0; y < h ; y++) {
+		for( x = 0; x < w ; x++)  {
+			CU_ASSERT_EQUAL(fractal_get_value(ptr, x, y), x+y*10);
+		}
+	}
+
+	fractal_free(ptr);
+}
+
 int setup(void) {
 	*name = "CUnit";
 	width = 0;
@@ -82,7 +103,8 @@ int main(int argc, char const *argv[]) {
 			(NULL == CU_add_test(pSuite, "Name", test_libfractal_get_width)) ||
 			(NULL == CU_add_test(pSuite, "Name", test_libfractal_get_height)) ||
 			(NULL == CU_add_test(pSuite, "Name", test_libfractal_get_a)) ||
-			(NULL == CU_add_test(pSuite, "Name", test_libfractal_get_b))) {
+			(NULL == CU_add_test(pSuite, "Name", test_libfractal_get_b))||
+			(NULL == CU_add_test(pSuite, "Name", test_libfractal_get_set_value))) {
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
