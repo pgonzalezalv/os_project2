@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
 
 	check(!write_bitmap_sdl(best, fileOut),
 			"Error while writing best fractal");
-			
+
 	error:
 		exit(EXIT_FAILURE);
 }

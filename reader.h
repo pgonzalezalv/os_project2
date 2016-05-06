@@ -3,6 +3,7 @@
 
 // maximal characters per line
 #define SIZE_MAX 500
+#define NAME_LEN 65
 
 /*
  * reader lit un file sur l'entree standard et cree des fractales.
