@@ -18,8 +18,6 @@
 #define ARGOPT_D "-d"
 #define ARGOPT_MAXTHREADS "--maxthreads"
 
-fractal_t *best = NULL; // best fractal
-
 bool print_all = false;
 int max_threads = 1;
 int count_files = 0;
@@ -39,8 +37,8 @@ pthread_mutex_t mutex_best;
 sem_t empty;
 sem_t full;
 
-pthread_t *read_threads;
-pthread_t *compute_threads;
+pthread_t *reader_threads;
+pthread_t *calculator_threads;
 
 int main(int argc, char *argv[])
 {
@@ -53,7 +51,7 @@ int main(int argc, char *argv[])
 	else log_info("No.");
 	log_info("%d calculations threads.", max_threads);
 	log_info("There are %d inputs.", count_files);
-	log_info("Output file is %s.", fileOut)
+	log_info("Output file is %s.", fileOut);
 
 	int arg[max_threads];
 	int err = 0;
@@ -76,7 +74,7 @@ int main(int argc, char *argv[])
 	log_info("Creating reader threads");
 	for (i = 1; i < count_files; i++) {
 		check(!pthread_create(&(reader_threads[is_reading]), NULL,
-					&reader, (void *)files[i])),
+					&reader, (void *)files[i]),
 					"Failed to create reader pthread");
 	} log_info("There are %d open files.", is_reading);
 
@@ -88,8 +86,8 @@ int main(int argc, char *argv[])
 	}
 
 	for (i = 0; i < max_threads; i++) {
-		fractal_t tmp;
-		check(!pthread_join(compute_threads[i], (void **) &tmp),
+		fractal_t *tmp;
+		check(!pthread_join(calculator_threads[i], (void **) &tmp),
 				"Join calculation thread problem %i.", i);
 		if ( best == NULL) {
 			best = tmp;

@@ -37,7 +37,7 @@ void *reader(void *param)
 	log_info("Succesfully opened file.");
 
 	char line[SIZE_MAX] = "";
-	char n[NAME_LEN] = (char *) malloc (NAME_LEN * sizeof(char));
+	char *n = (char *) malloc (NAME_LEN * sizeof(char));
 	int w = 0;
 	int h = 0;
 	double a = 0.0;
