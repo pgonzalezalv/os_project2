@@ -17,9 +17,7 @@
 
 void *calculator(void *param)
 {
-	fractal_t *best = NULL;
 	fractal_t *tmp = NULL;
-	int best_average = 0;
 
 	int *arg = (int *) param;
 
@@ -66,19 +64,10 @@ void *calculator(void *param)
 			write_bitmap_sdl(tmp, name);
 		}
 
-		if (best_average < average) {
-			best_average = average;
-
-			if(best != NULL) fractal_free(best);
-
-			best = tmp;
-		} else {
-			fractal_free(tmp);
-		}
 		log_info("Fin calcul de fractales");
 	}
 
-	return (void *) best;
+	return (void *) tmp;
 
 	error:
 		free(tmp);
